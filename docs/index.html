@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>머니그라피 채널 분석 대시보드</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #232636;
+      --border: #2e3347;
+      --text: #e2e8f0;
+      --text-muted: #8892a4;
+      --accent: #6366f1;
+      --accent2: #22d3ee;
+      --green: #34d399;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --purple: #a78bfa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── 헤더 ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+    .header h1 span { color: var(--accent); }
+    .updated-at { font-size: 12px; color: var(--text-muted); }
+
+    /* ── 탭 ── */
+    .tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── 탭 패널 ── */
+    .tab-panel { display: none; padding: 24px; max-width: 1400px; margin: 0 auto; }
+    .tab-panel.active { display: block; }
+
+    /* ── 카드 ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── 요약 통계 카드 ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .stat-card .label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .stat-card .value { font-size: 22px; font-weight: 700; }
+    .stat-card .sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── 차트 컨테이너 ── */
+    .chart-wrap { position: relative; }
+    .chart-wrap canvas { max-height: 300px; }
+
+    /* ── 영상 테이블 ── */
+    .video-table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:hover td { background: var(--surface2); }
+    .video-title {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .video-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .video-title a:hover { color: var(--accent); }
+
+    /* ── 배지 ── */
+    .badge-outlier {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--yellow);
+      color: #000;
+      font-weight: 700;
+      margin-left: 6px;
+    }
+    .badge-active {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: rgba(52,211,153,0.15);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+    .badge-ended {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: rgba(156,163,175,0.15);
+      color: var(--text-muted);
+      border: 1px solid var(--text-muted);
+    }
+
+    /* ── 증감 표시 ── */
+    .delta-pos { color: var(--green); }
+    .delta-neg { color: var(--red); }
+    .delta-zero { color: var(--text-muted); }
+
+    /* ── 히트맵 ── */
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+    .heatmap-cell {
+      text-align: center;
+      padding: 10px 4px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .heatmap-cell .day { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .heatmap-cell .count { font-size: 18px; font-weight: 700; }
+
+    /* ── 프로그램 카드 ── */
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .program-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .program-card .prog-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .prog-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .prog-stat { font-size: 12px; color: var(--text-muted); }
+    .prog-stat span { color: var(--text); font-weight: 600; }
+    .ep-compare {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .ep-compare .ep-label { color: var(--text-muted); font-size: 11px; margin-bottom: 2px; }
+    .ep-compare .ep-val { font-size: 13px; font-weight: 700; }
+    .ep-compare .arrow { text-align: center; color: var(--text-muted); }
+
+    /* ── 로딩 ── */
+    #loading {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── 에러 ── */
+    #error-msg {
+      display: none;
+      padding: 20px 24px;
+      color: var(--red);
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 10px;
+      margin: 24px;
+    }
+
+    /* ── 경쟁 채널 랭킹 ── */
+    .rank-list { display: flex; flex-direction: column; gap: 10px; }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border-radius: 8px;
+    }
+    .rank-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .rank-num.top1 { background: var(--yellow); color: #000; }
+    .rank-num.top2 { background: #9ca3af; color: #000; }
+    .rank-num.top3 { background: #cd7c2f; color: #fff; }
+    .rank-name { flex: 1; font-weight: 600; }
+    .rank-val { font-size: 13px; font-weight: 700; color: var(--accent2); }
+    .rank-bar-bg {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 4px;
+    }
+    .rank-bar { height: 4px; border-radius: 2px; background: var(--accent); transition: width 0.5s; }
+    .rank-item.is-target { border-color: var(--accent); border: 1px solid var(--accent); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) {
+      .two-col, .three-col { grid-template-columns: 1fr; }
+    }
+
+    /* 주차/월간 카드 */
+    .snapshot-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .snapshot-week {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      min-width: 220px;
+      flex: 1;
+    }
+    .snapshot-week .week-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .snapshot-week .week-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .snapshot-week .week-row span { color: var(--text); font-weight: 600; }
+    .snapshot-week.monthly { border-color: var(--accent2); }
+    .snapshot-week.monthly .week-label { color: var(--accent2); }
+    .no-data-msg { color: var(--text-muted); font-size: 13px; padding: 8px 0; }
+  </style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div> 데이터 로딩 중...</div>
+<div id="error-msg"></div>
+
+<div id="app" style="display:none">
+  <header class="header">
+    <h1>📊 <span>머니그라피</span> 채널 분석 대시보드</h1>
+    <div class="updated-at" id="updated-at">-</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="content">콘텐츠 분석</button>
+    <button class="tab-btn" data-tab="program">프로그램 분석</button>
+    <button class="tab-btn" data-tab="growth">채널 성장</button>
+    <button class="tab-btn" data-tab="compare">경쟁 채널 비교</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════
+       탭 1: 콘텐츠 분석
+  ════════════════════════════════════════════════════ -->
+  <section class="tab-panel active" id="tab-content">
+    <div class="stat-grid" id="target-stats"></div>
+
+    <!-- 주간 비교 지표 -->
+    <div class="card" id="weekly-comparison-card">
+      <div class="card-title" id="weekly-comparison-title">📊 전주 대비 (최근 7일 기준)</div>
+      <div class="stat-grid" id="weekly-comparison-stats"></div>
+    </div>
+
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📅 업로드 요일 히트맵</div>
+        <div class="heatmap" id="heatmap"></div>
+        <div id="heatmap-video-detail" style="margin-top:12px;min-height:40px"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 최근 30일 롱폼 조회수 추이</div>
+        <div class="chart-wrap"><canvas id="chart-views-bar"></canvas></div>
+        <div id="longform-video-list" style="margin-top:12px;font-size:12px;"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎬 최근 영상 상세 <span class="badge" id="video-count-badge"></span>
+        <span style="margin-left:8px">
+          <button class="tab-btn" id="filter-all" style="padding:4px 10px;font-size:12px;border-radius:6px;background:var(--accent);color:#fff;border:none;cursor:pointer">전체</button>
+          <button class="tab-btn" id="filter-long" style="padding:4px 10px;font-size:12px;border-radius:6px;background:none;color:var(--text-muted);border:1px solid var(--border);cursor:pointer;margin-left:4px">롱폼</button>
+          <button class="tab-btn" id="filter-short" style="padding:4px 10px;font-size:12px;border-radius:6px;background:none;color:var(--text-muted);border:1px solid var(--border);cursor:pointer;margin-left:4px">숏폼</button>
+        </span>
+      </div>
+      <div class="video-table-wrap">
+        <table id="video-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>제목</th>
+              <th>게시일</th>
+              <th>요일</th>
+              <th>유형</th>
+              <th>프로그램</th>
+              <th>조회수</th>
+              <th>좋아요수</th>
+              <th>댓글수</th>
+              <th>7일 추이</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       탭 2: 프로그램 분석
+  ════════════════════════════════════════════════════ -->
+  <section class="tab-panel" id="tab-program">
+    <div class="card">
+      <div class="card-title">🎙 방영중 프로그램</div>
+      <div class="program-grid" id="programs-active"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📦 종영 프로그램</div>
+      <div class="program-grid" id="programs-ended"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 프로그램별 평균 조회수 비교</div>
+      <div class="chart-wrap"><canvas id="chart-program-views"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       탭 3: 채널 성장
+  ════════════════════════════════════════════════════ -->
+  <section class="tab-panel" id="tab-growth">
+    <!-- 주간 기록 카드 -->
+    <div class="card">
+      <div class="card-title">📅 주차별 기록 <span style="font-size:11px;color:var(--text-muted);font-weight:400">(목요일 ~ 다음 목요일 기준)</span></div>
+      <div id="weekly-snapshots-wrap"></div>
+    </div>
+
+    <!-- 일별 상세 기록 카드 -->
+    <div class="card">
+      <div class="card-title">📊 일별 상세 기록</div>
+      <div id="daily-records-wrap"></div>
+    </div>
+
+    <!-- 월간 기록 카드 -->
+    <div class="card" id="monthly-card" style="display:none">
+      <div class="card-title">📆 월간 기록</div>
+      <div id="monthly-snapshots-wrap"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📈 구독자 증가 추이</div>
+      <div class="chart-wrap"><canvas id="chart-subs-growth"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ 일별 구독자 증감</div>
+      <div class="chart-wrap"><canvas id="chart-subs-delta"></canvas></div>
+    </div>
+    <div class="card" id="spike-card">
+      <div class="card-title">🚀 구독자 급증 연결 영상</div>
+      <div id="spike-videos"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       탭 4: 경쟁 채널 비교
+  ════════════════════════════════════════════════════ -->
+  <section class="tab-panel" id="tab-compare">
+    <div class="card">
+      <div class="card-title">📊 구독자 현황</div>
+      <div class="chart-wrap"><canvas id="chart-subs-compare"></canvas></div>
+    </div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">🏆 주간 구독자 성장 랭킹</div>
+        <div class="rank-list" id="rank-weekly-growth"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">👁 영상당 평균 조회수 랭킹</div>
+        <div class="rank-list" id="rank-avg-views"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📤 주간 업로드 빈도 랭킹</div>
+        <div class="rank-list" id="rank-upload-freq"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 채널별 구독자 추이 비교</div>
+      <div class="chart-wrap" style="max-height:350px"><canvas id="chart-growth-compare"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎬 채널별 최근 영상</div>
+      <div id="channel-filter-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px"></div>
+      <div id="channel-videos-list"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 유틸
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const fmt = n => n == null ? '-' : Number(n).toLocaleString('ko-KR');
+const fmtDate = s => s ? s.slice(0,10) : '-';
+const fmtRate = n => n == null ? '-' : `${Number(n).toFixed(2)}%`;
+
+function deltaHtml(n) {
+  if (n == null || n === 0) return `<span class="delta-zero">-</span>`;
+  const sign = n > 0 ? '+' : '';
+  const cls = n > 0 ? 'delta-pos' : 'delta-neg';
+  return `<span class="${cls}">${sign}${fmt(n)}</span>`;
+}
+
+function rateHtml(n) {
+  if (n == null || n === 0) return `<span class="delta-zero">-</span>`;
+  const sign = n > 0 ? '+' : '';
+  const cls = n > 0 ? 'delta-pos' : 'delta-neg';
+  return `<span class="${cls}">${sign}${n.toFixed(2)}%</span>`;
+}
+
+const CHART_COLORS = [
+  '#6366f1','#22d3ee','#34d399','#fbbf24','#f87171',
+  '#a78bfa','#fb7185','#2dd4bf','#818cf8','#f59e0b'
+];
+
+const heatmapColors = ['#1e2235','#2a3060','#3b4a9e','#5668d4','#6e7ef0'];
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 전환
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+  });
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 차트 공통 설정
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const baseOptions = {
+  responsive: true,
+  plugins: {
+    legend: { labels: { color: '#8892a4', font: { size: 12 } } },
+    tooltip: { backgroundColor: '#232636', titleColor: '#e2e8f0', bodyColor: '#8892a4', borderColor: '#2e3347', borderWidth: 1 }
+  },
+  scales: {
+    x: { ticks: { color: '#8892a4' }, grid: { color: 'rgba(46,51,71,0.6)' } },
+    y: { ticks: { color: '#8892a4' }, grid: { color: 'rgba(46,51,71,0.6)' } }
+  }
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 1: 콘텐츠 분석 렌더링
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderContent(data) {
+  const tc = data.target_channel;
+  const videos = tc.recent_videos || [];
+  const wc = data.weekly_comparison || {};
+
+  // window.allVideos 세팅 (프로그램 분석 에피소드 펼치기에서 사용)
+  window.allVideos = videos;
+
+  // 수정 1: 전주 대비 카드 제목에 날짜 범위 표시
+  const today = new Date();
+  const weekAgo = new Date(today); weekAgo.setDate(today.getDate() - 7);
+  function mmdd(d) { return `${d.getMonth()+1}.${d.getDate()}`; }
+  const weekRange = `${mmdd(weekAgo)} ~ ${mmdd(today)}`;
+  const titleEl = document.getElementById('weekly-comparison-title');
+  if (titleEl) titleEl.textContent = `📊 전주 대비 (${weekRange} 기준)`;
+
+  // 요약 통계
+  document.getElementById('target-stats').innerHTML = [
+    { label: '구독자', value: fmt(tc.subscriber_count), sub: '명' },
+    { label: '총 조회수', value: fmt(tc.view_count), sub: '회' },
+    { label: '총 영상수', value: fmt(tc.video_count), sub: '개' },
+    { label: '최근 60일 영상', value: videos.length, sub: '개' },
+    { label: '롱폼', value: videos.filter(v => !v.is_short).length, sub: '개' },
+    { label: '숏폼', value: videos.filter(v => v.is_short).length, sub: '개' },
+  ].map(s => `
+    <div class="stat-card">
+      <div class="label">${s.label}</div>
+      <div class="value">${s.value}<small style="font-size:13px;font-weight:400"> ${s.sub}</small></div>
+    </div>
+  `).join('');
+
+  // 주간 비교 지표
+  function wcStat(label, curr, delta, rate) {
+    const sign = delta >= 0 ? '+' : '';
+    const cls = delta >= 0 ? 'delta-pos' : 'delta-neg';
+    const hasHistory = delta !== 0 || rate !== 0;
+    return `
+      <div class="stat-card">
+        <div class="label">${label}</div>
+        <div class="value">${fmt(curr)}</div>
+        ${hasHistory ? `<div style="font-size:12px;margin-top:4px"><span class="${cls}">${sign}${fmt(delta)}</span> <span class="${cls}" style="font-size:11px">(${sign}${rate}%)</span></div>` : '<div style="font-size:11px;color:var(--text-muted);margin-top:4px">이전 데이터 없음</div>'}
+      </div>`;
+  }
+  const sub = wc.subscriber || {};
+  const cmt = wc.comments || {};
+  const views = wc.views || {};
+  document.getElementById('weekly-comparison-stats').innerHTML =
+    wcStat('구독자 수', sub.current||0, sub.delta||0, sub.rate||0) +
+    wcStat('전체 조회수', views.current||0, views.delta||0, views.rate||0) +
+    wcStat('댓글 수', cmt.current||0, cmt.delta||0, cmt.rate||0);
+
+  document.getElementById('video-count-badge').textContent = `${videos.length}개`;
+
+  // 히트맵
+  const heatmap = tc.upload_heatmap || {};
+  const maxCount = Math.max(...Object.values(heatmap), 1);
+
+  // 요일별 영상 그룹핑
+  const videosByDay = {};
+  ['월','화','수','목','금','토','일'].forEach(d => videosByDay[d] = []);
+  videos.forEach(v => {
+    const day = v.published_weekday;
+    if (day && videosByDay[day]) videosByDay[day].push(v);
+  });
+
+  document.getElementById('heatmap').innerHTML = Object.entries(heatmap).map(([day, cnt]) => {
+    const intensity = Math.round((cnt / maxCount) * (heatmapColors.length - 1));
+    const bg = heatmapColors[intensity];
+    return `<div class="heatmap-cell" style="background:${bg};cursor:pointer" data-day="${day}">
+      <div class="day">${day}요일</div>
+      <div class="count">${cnt}</div>
+    </div>`;
+  }).join('');
+
+  // 히트맵 클릭 이벤트
+  document.querySelectorAll('.heatmap-cell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const day = cell.dataset.day;
+      const dayVideos = videosByDay[day] || [];
+      const el = document.getElementById('heatmap-video-detail');
+      if (!dayVideos.length) {
+        el.innerHTML = `<p style="color:var(--text-muted);font-size:12px">${day}요일 최근 60일 내 업로드 없음</p>`;
+      } else {
+        el.innerHTML = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">${day}요일 업로드 영상 (${dayVideos.length}개)</div>` +
+          dayVideos.map(v => `<div style="padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px">${v.title}</a>
+            <span style="color:var(--accent2);font-size:12px;white-space:nowrap">${fmt(v.view_count)}</span>
+          </div>`).join('');
+      }
+    });
+  });
+
+  // 롱폼 30일 조회수 추이 (날짜별)
+  const longformTrend = tc.longform_trend || [];
+  new Chart(document.getElementById('chart-views-bar'), {
+    type: 'bar',
+    data: {
+      labels: longformTrend.map(d => d.date.slice(5)),
+      datasets: [{
+        label: '롱폼 조회수',
+        data: longformTrend.map(d => d.view_count || 0),
+        backgroundColor: 'rgba(99,102,241,0.6)',
+        borderColor: '#6366f1',
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      ...baseOptions,
+      plugins: {
+        ...baseOptions.plugins,
+        legend: { display: false },
+        tooltip: {
+          ...baseOptions.plugins.tooltip,
+          callbacks: {
+            afterBody: (items) => {
+              const idx = items[0].dataIndex;
+              const entry = longformTrend[idx];
+              if (!entry || !entry.videos || !entry.videos.length) return [];
+              return entry.videos.map(v => `• ${v.title.slice(0,30)}… (${fmt(v.view_count)})`);
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ...baseOptions.scales.x, ticks: { color: '#8892a4', maxRotation: 45, font: { size: 10 } } },
+        y: { ...baseOptions.scales.y, ticks: { color: '#8892a4', callback: v => `${(v/10000).toFixed(0)}만` } }
+      }
+    }
+  });
+
+  // 롱폼 영상 목록 (chart 아래)
+  const lfList = document.getElementById('longform-video-list');
+  if (lfList) {
+    const allLongform = videos.filter(v => !v.is_short);
+    lfList.innerHTML = '<div style="color:var(--text-muted);margin-bottom:6px;font-size:11px">📋 집계된 롱폼 영상</div>' +
+      allLongform.map(v => `
+        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)">
+          <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank" style="color:var(--text);text-decoration:none;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px">${v.title}</a>
+          <span style="color:var(--accent2);white-space:nowrap">${fmt(v.view_count)}</span>
+        </div>
+      `).join('');
+  }
+
+  // 영상 테이블 렌더링 함수
+  function renderTable(filteredVideos) {
+    const tbody = document.querySelector('#video-table tbody');
+    tbody.innerHTML = filteredVideos.map((v, i) => {
+      const outlierBadge = v.is_outlier ? '<span class="badge-outlier">🔥아웃라이어</span>' : '';
+      const typeBadge = v.is_short
+        ? '<span style="background:#f87171;color:#fff;padding:1px 6px;border-radius:4px;font-size:10px">숏폼</span>'
+        : '<span style="background:#6366f1;color:#fff;padding:1px 6px;border-radius:4px;font-size:10px">롱폼</span>';
+      const trend = v.trend || [];
+      const trendMin = Math.min(...trend.map(t=>t.view_count||0), 0);
+      const trendMax = Math.max(...trend.map(t=>t.view_count||0), 1);
+      const points = trend.map((t, ti) => {
+        const x = trend.length > 1 ? (ti/(trend.length-1))*58+1 : 30;
+        const y = 22 - ((t.view_count||0)-trendMin)/(trendMax-trendMin+1)*20;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(' ');
+      const svgSparkline = trend.length > 1
+        ? `<svg width="60" height="24" style="vertical-align:middle"><polyline points="${points}" stroke="#6366f1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        : '-';
+
+      return `<tr>
+        <td>${i+1}</td>
+        <td><div class="video-title">
+          <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank">${v.title}</a>
+          ${outlierBadge}
+        </div></td>
+        <td>${fmtDate(v.published_at)}</td>
+        <td>${v.published_weekday || '-'}</td>
+        <td>${typeBadge}</td>
+        <td>${v.program_name ? `<span style="color:var(--accent2)">${v.program_name}${v.episode_number!=null?' '+v.episode_number:''}</span>` : '-'}</td>
+        <td>${fmt(v.view_count)}</td>
+        <td>${fmt(v.like_count)}</td>
+        <td>${fmt(v.comment_count)}</td>
+        <td>${svgSparkline}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  renderTable(videos);
+
+  // 필터 버튼
+  function setFilter(type) {
+    document.getElementById('filter-all').style.background = type==='all' ? 'var(--accent)' : 'none';
+    document.getElementById('filter-all').style.color = type==='all' ? '#fff' : 'var(--text-muted)';
+    document.getElementById('filter-long').style.background = type==='long' ? 'var(--accent)' : 'none';
+    document.getElementById('filter-long').style.color = type==='long' ? '#fff' : 'var(--text-muted)';
+    document.getElementById('filter-short').style.background = type==='short' ? '#f87171' : 'none';
+    document.getElementById('filter-short').style.color = type==='short' ? '#fff' : 'var(--text-muted)';
+    if (type === 'all') renderTable(videos);
+    else if (type === 'long') renderTable(videos.filter(v => !v.is_short));
+    else renderTable(videos.filter(v => v.is_short));
+  }
+  document.getElementById('filter-all').onclick = () => setFilter('all');
+  document.getElementById('filter-long').onclick = () => setFilter('long');
+  document.getElementById('filter-short').onclick = () => setFilter('short');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 2: 프로그램 분석 렌더링
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderPrograms(data) {
+  const programs = data.target_channel.programs || [];
+  const active = programs.filter(p => p.status === '방영중');
+  const ended = programs.filter(p => p.status === '종영');
+
+  function programCardHtml(p) {
+    const latest = p.latest_episode;
+    const prev = p.prev_episode;
+    const delta = p.delta || {};
+
+    const epCompare = (latest && prev) ? `
+      <div class="ep-compare">
+        <div>
+          <div class="ep-label">이전 에피소드${prev.episode_number!=null?' #'+prev.episode_number:''}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${fmtDate(prev.published_at)}</div>
+          <a href="https://youtube.com/watch?v=${prev.video_id}" target="_blank" style="color:var(--text-muted);font-size:11px;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px">${prev.title}</a>
+          <div class="ep-val">${fmt(prev.view_count)}</div>
+          <div style="font-size:11px;color:var(--text-muted)">👍 ${fmt(prev.like_count)} 💬 ${fmt(prev.comment_count)}</div>
+        </div>
+        <div class="arrow">→</div>
+        <div>
+          <div class="ep-label">최신 에피소드${latest.episode_number!=null?' #'+latest.episode_number:''}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${fmtDate(latest.published_at)}</div>
+          <a href="https://youtube.com/watch?v=${latest.video_id}" target="_blank" style="color:var(--text-muted);font-size:11px;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px">${latest.title}</a>
+          <div class="ep-val">${fmt(latest.view_count)}</div>
+          <div style="font-size:11px">👍 ${fmt(latest.like_count)} 💬 ${fmt(latest.comment_count)}</div>
+        </div>
+      </div>
+    ` : latest ? `
+      <div class="ep-compare">
+        <div>
+          <div class="ep-label">최신 에피소드${latest.episode_number!=null?' #'+latest.episode_number:''}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${fmtDate(latest.published_at)}</div>
+          <a href="https://youtube.com/watch?v=${latest.video_id}" target="_blank" style="color:var(--text-muted);font-size:11px;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px">${latest.title}</a>
+          <div class="ep-val">${fmt(latest.view_count)}</div>
+          <div style="font-size:11px;color:var(--text-muted)">👍 ${fmt(latest.like_count)} 💬 ${fmt(latest.comment_count)}</div>
+        </div>
+      </div>
+    ` : '';
+
+    return `
+      <div class="program-card">
+        <div class="prog-name">
+          ${p.name}
+          <span class="${p.status==='방영중'?'badge-active':'badge-ended'}">${p.status}</span>
+        </div>
+        <div class="prog-stats">
+          <div class="prog-stat">에피소드 수 <span>${p.episode_count}개</span></div>
+          <div class="prog-stat">평균 조회수 <span>${fmt(p.avg_view_count)}</span></div>
+          <div class="prog-stat">평균 좋아요수 <span>${fmt(p.avg_like_count)}</span></div>
+          <div class="prog-stat">평균 댓글수 <span>${fmt(p.avg_comment_count)}</span></div>
+        </div>
+        ${epCompare}
+        <button onclick="toggleEpisodes(this, '${p.name}')" style="margin-top:8px;padding:4px 10px;background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:6px;cursor:pointer;font-size:11px">에피소드 목록 ▼</button>
+        <div class="episode-list" style="display:none;margin-top:8px"></div>
+      </div>
+    `;
+  }
+
+  document.getElementById('programs-active').innerHTML =
+    active.length ? active.map(programCardHtml).join('') : '<p style="color:var(--text-muted)">방영중 프로그램 없음</p>';
+  document.getElementById('programs-ended').innerHTML =
+    ended.length ? ended.map(programCardHtml).join('') : '<p style="color:var(--text-muted)">종영 프로그램 없음</p>';
+
+  // 에피소드 펼치기 전역 함수
+  window.toggleEpisodes = function(btn, programName) {
+    const listEl = btn.nextElementSibling;
+    if (listEl.style.display !== 'none') {
+      listEl.style.display = 'none';
+      btn.textContent = '에피소드 목록 ▼';
+      return;
+    }
+    const eps = window.allVideos.filter(v => v.program_name === programName)
+      .sort((a,b) => b.published_at.localeCompare(a.published_at));
+    listEl.innerHTML = eps.length ? eps.map(v => `
+      <div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank" style="color:var(--text);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.title}</a>
+        <span style="color:var(--text-muted);white-space:nowrap">${v.published_at.slice(5)}</span>
+        <span style="color:var(--accent2);white-space:nowrap">${fmt(v.view_count)}</span>
+      </div>
+    `).join('') : '<p style="color:var(--text-muted);font-size:12px">에피소드 없음</p>';
+    listEl.style.display = 'block';
+    btn.textContent = '에피소드 목록 ▲';
+  };
+
+  // 프로그램별 평균 조회수 차트
+  const sorted = [...programs].sort((a,b) => b.avg_view_count - a.avg_view_count);
+  new Chart(document.getElementById('chart-program-views'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(p => p.name),
+      datasets: [{
+        label: '평균 조회수',
+        data: sorted.map(p => p.avg_view_count),
+        backgroundColor: sorted.map((p,i) => p.status==='방영중' ? 'rgba(99,102,241,0.7)' : 'rgba(75,85,99,0.5)'),
+        borderColor: sorted.map(p => p.status==='방영중' ? '#6366f1' : '#4b5563'),
+        borderWidth: 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      ...baseOptions,
+      plugins: { ...baseOptions.plugins, legend: { display: false } },
+      scales: {
+        x: { ...baseOptions.scales.x },
+        y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => `${(v/10000).toFixed(0)}만` } }
+      }
+    }
+  });
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 3: 채널 성장 렌더링
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function fmtWeekLabel(start, end) {
+  function toMD(d) {
+    const dt = new Date(d);
+    return `${dt.getMonth()+1}.${dt.getDate()}(목)`;
+  }
+  return `${toMD(start)} ~ ${toMD(end)}`;
+}
+
+function renderGrowth(data) {
+  const growth = data.target_channel.growth || [];
+  const spikes = data.target_channel.spike_videos || [];
+  const weeklySnaps = data.weekly_snapshots || [];
+  const monthlySnaps = data.monthly_snapshots || [];
+  const dailyRecords = data.daily_records || [];
+
+  // ── 주차별 기록 카드 ──
+  const weekWrap = document.getElementById('weekly-snapshots-wrap');
+  if (weeklySnaps.length === 0) {
+    weekWrap.innerHTML = '<p class="no-data-msg">매주 목요일 데이터 수집 시 자동으로 기록됩니다. 오늘(목요일) 첫 기록이 저장됩니다!</p>';
+  } else {
+    weekWrap.innerHTML = '<div class="snapshot-grid">' + weeklySnaps.map((w, i) => {
+      const prev = weeklySnaps[i - 1];
+      const subDelta = prev ? w.subscriber_count - prev.subscriber_count : null;
+      const subRate = prev && prev.subscriber_count ? (subDelta / prev.subscriber_count * 100).toFixed(2) : null;
+      const sign = subDelta >= 0 ? '+' : '';
+      const cls = subDelta >= 0 ? 'delta-pos' : 'delta-neg';
+      return `<div class="snapshot-week">
+        <div class="week-label">📅 ${fmtWeekLabel(w.week_start, w.week_end)}</div>
+        <div class="week-row">구독자 <span>${fmt(w.subscriber_count)}명${subDelta !== null ? ` <span class="${cls}">(${sign}${fmt(subDelta)})</span>` : ''}</span></div>
+        <div class="week-row">조회수 <span>${fmt(w.total_view_count || 0)}</span></div>
+        <div class="week-row">댓글수 <span>${fmt(w.total_comment_count || 0)}</span></div>
+        <div class="week-row">롱폼 <span>${w.longform_count || 0}개</span></div>
+        <div class="week-row">숏폼 <span>${w.shortform_count || 0}개</span></div>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // ── 일별 상세 기록 카드 ──
+  const drEl = document.getElementById('daily-records-wrap');
+  if (drEl) {
+    if (dailyRecords.length === 0) {
+      drEl.innerHTML = '<p class="no-data-msg">데이터 수집 후 표시됩니다.</p>';
+    } else {
+      drEl.innerHTML = `
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="color:var(--text-muted);border-bottom:1px solid var(--border)">
+            <th style="text-align:left;padding:6px 8px">날짜</th>
+            <th style="text-align:right;padding:6px 8px">구독자</th>
+            <th style="text-align:right;padding:6px 8px">총 조회수</th>
+            <th style="text-align:right;padding:6px 8px">총 댓글</th>
+            <th style="text-align:right;padding:6px 8px">총 좋아요</th>
+            <th style="text-align:right;padding:6px 8px">롱폼 조회</th>
+            <th style="text-align:right;padding:6px 8px">롱폼 댓글</th>
+            <th style="text-align:right;padding:6px 8px">롱폼 좋아요</th>
+            <th style="text-align:right;padding:6px 8px">숏폼 조회</th>
+            <th style="text-align:right;padding:6px 8px">숏폼 댓글</th>
+            <th style="text-align:right;padding:6px 8px">숏폼 좋아요</th>
+            <th style="text-align:right;padding:6px 8px">롱폼업로드</th>
+            <th style="text-align:right;padding:6px 8px">숏폼업로드</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${dailyRecords.map((r, i) => `
+            <tr style="border-bottom:1px solid var(--border);${i===0?'color:var(--text)':'color:var(--text-muted)'}">
+              <td style="padding:6px 8px;font-weight:600;white-space:nowrap">${r.record_date}</td>
+              <td style="text-align:right;padding:6px 8px">${fmt(r.subscriber_count)}</td>
+              <td style="text-align:right;padding:6px 8px">${fmt(r.total_view_count)}</td>
+              <td style="text-align:right;padding:6px 8px">${fmt(r.total_comment_count)}</td>
+              <td style="text-align:right;padding:6px 8px">${fmt(r.total_like_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--accent)">${fmt(r.longform_view_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--accent)">${fmt(r.longform_comment_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--accent)">${fmt(r.longform_like_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--red)">${fmt(r.shortform_view_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--red)">${fmt(r.shortform_comment_count)}</td>
+              <td style="text-align:right;padding:6px 8px;color:var(--red)">${fmt(r.shortform_like_count)}</td>
+              <td style="text-align:right;padding:6px 8px">${r.longform_upload_count}</td>
+              <td style="text-align:right;padding:6px 8px">${r.shortform_upload_count}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      </div>`;
+    }
+  }
+
+  // ── 월간 기록 카드 ──
+  const monthCard = document.getElementById('monthly-card');
+  const monthWrap = document.getElementById('monthly-snapshots-wrap');
+  if (monthlySnaps.length > 0) {
+    monthCard.style.display = '';
+    monthWrap.innerHTML = '<div class="snapshot-grid">' + monthlySnaps.map((m, i) => {
+      const prev = monthlySnaps[i - 1];
+      const subDelta = prev ? m.subscriber_count - prev.subscriber_count : null;
+      const sign = subDelta >= 0 ? '+' : '';
+      const cls = subDelta >= 0 ? 'delta-pos' : 'delta-neg';
+      return `<div class="snapshot-week monthly">
+        <div class="week-label">📆 ${m.month}</div>
+        <div class="week-row">구독자 <span>${fmt(m.subscriber_count)}명${subDelta !== null ? ` <span class="${cls}">(${sign}${fmt(subDelta)})</span>` : ''}</span></div>
+        <div class="week-row">조회수 <span>${fmt(m.total_view_count || 0)}</span></div>
+        <div class="week-row">댓글수 <span>${fmt(m.total_comment_count || 0)}</span></div>
+        <div class="week-row">롱폼 <span>${m.longform_count || 0}개</span></div>
+        <div class="week-row">숏폼 <span>${m.shortform_count || 0}개</span></div>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // 구독자 증가 추이
+  new Chart(document.getElementById('chart-subs-growth'), {
+    type: 'line',
+    data: {
+      labels: growth.map(g => g.date.slice(5)),
+      datasets: [{
+        label: '구독자',
+        data: growth.map(g => g.subscriber_count),
+        borderColor: '#6366f1',
+        backgroundColor: 'rgba(99,102,241,0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 3,
+        pointBackgroundColor: '#6366f1',
+      }]
+    },
+    options: {
+      ...baseOptions,
+      scales: {
+        x: { ...baseOptions.scales.x },
+        y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => `${(v/10000).toFixed(1)}만` } }
+      }
+    }
+  });
+
+  // 일별 구독자 증감
+  new Chart(document.getElementById('chart-subs-delta'), {
+    type: 'bar',
+    data: {
+      labels: growth.map(g => g.date.slice(5)),
+      datasets: [{
+        label: '일별 증감',
+        data: growth.map(g => g.delta),
+        backgroundColor: growth.map(g => g.delta >= 0 ? 'rgba(52,211,153,0.6)' : 'rgba(248,113,113,0.6)'),
+        borderColor: growth.map(g => g.delta >= 0 ? '#34d399' : '#f87171'),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      ...baseOptions,
+      plugins: { ...baseOptions.plugins, legend: { display: false } },
+    }
+  });
+
+  // 구독자 급증 연결 영상
+  const spikeEl = document.getElementById('spike-videos');
+  if (spikes.length) {
+    spikeEl.innerHTML = spikes.map(s => `
+      <div style="padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:14px">
+        <div style="color:var(--green);font-weight:700;white-space:nowrap">+${fmt(s.delta)}명</div>
+        <div style="color:var(--text-muted);font-size:12px;white-space:nowrap">${s.date}</div>
+        <div style="flex:1">
+          <a href="https://youtube.com/watch?v=${s.video_id}" target="_blank"
+             style="color:var(--text);text-decoration:none;font-size:13px">
+            ${s.title}
+          </a>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    spikeEl.innerHTML = '<p style="color:var(--text-muted)">데이터 누적 후 표시됩니다.</p>';
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 4: 경쟁 채널 비교 렌더링
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderCompare(data) {
+  const competitors = data.competitors || [];
+  const comp = data.comparison || {};
+
+  // 구독자 현황 막대 차트
+  const sorted = [...competitors].sort((a,b) => b.subscriber_count - a.subscriber_count);
+  new Chart(document.getElementById('chart-subs-compare'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(c => c.name),
+      datasets: [{
+        label: '구독자 수',
+        data: sorted.map(c => c.subscriber_count),
+        backgroundColor: sorted.map(c => c.is_target ? 'rgba(99,102,241,0.85)' : 'rgba(99,102,241,0.35)'),
+        borderColor: sorted.map(c => c.is_target ? '#6366f1' : '#3730a3'),
+        borderWidth: c => c.is_target ? 2 : 1,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      ...baseOptions,
+      plugins: { ...baseOptions.plugins, legend: { display: false } },
+      scales: {
+        x: { ...baseOptions.scales.x },
+        y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => `${(v/10000).toFixed(0)}만` } }
+      }
+    }
+  });
+
+  // 랭킹 리스트 헬퍼
+  function renderRanking(el, items, valFn) {
+    const maxVal = Math.max(...items.map(valFn), 1);
+    el.innerHTML = items.map((item, i) => {
+      const rankCls = i===0?'top1':i===1?'top2':i===2?'top3':'';
+      const isTarget = item.name === '머니그라피';
+      const barWidth = Math.round(valFn(item)/maxVal*100);
+      return `
+        <div class="rank-item ${isTarget?'is-target':''}">
+          <div class="rank-num ${rankCls}">${i+1}</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between">
+              <span class="rank-name">${item.name}${isTarget?' ⭐':''}</span>
+              <span class="rank-val">${valFn(item).toLocaleString('ko-KR')}</span>
+            </div>
+            <div class="rank-bar-bg"><div class="rank-bar" style="width:${barWidth}%"></div></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (comp.weekly_growth_ranking) {
+    renderRanking(
+      document.getElementById('rank-weekly-growth'),
+      comp.weekly_growth_ranking,
+      i => i.value
+    );
+  }
+  if (comp.avg_views_ranking) {
+    renderRanking(
+      document.getElementById('rank-avg-views'),
+      comp.avg_views_ranking,
+      i => i.value
+    );
+  }
+  if (comp.upload_freq_ranking) {
+    // TODO: backend에서 롱폼/숏폼 분리 데이터(weekly_longform_count, weekly_shortform_count) 추가 시 업데이트 필요
+    const uploadEl = document.getElementById('rank-upload-freq');
+    const uploadItems = comp.upload_freq_ranking;
+    const maxVal = Math.max(...uploadItems.map(i => i.value), 1);
+    uploadEl.innerHTML = uploadItems.map((item, i) => {
+      const rankCls = i===0?'top1':i===1?'top2':i===2?'top3':'';
+      const isTarget = item.name === '머니그라피';
+      const barWidth = Math.round(item.value/maxVal*100);
+      // competitors에서 해당 채널의 롱폼/숏폼 수 찾기
+      const chData = competitors.find(c => c.name === item.name);
+      const longformCount = chData ? (chData.weekly_longform_count || 0) : 0;
+      const shortformCount = chData ? (chData.weekly_shortform_count || 0) : 0;
+      const subInfo = (longformCount || shortformCount) ? ` (롱폼 ${longformCount} / 숏폼 ${shortformCount})` : '';
+      return `
+        <div class="rank-item ${isTarget?'is-target':''}">
+          <div class="rank-num ${rankCls}">${i+1}</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between">
+              <span class="rank-name">${item.name}${isTarget?' ⭐':''}</span>
+              <span class="rank-val">${item.value.toLocaleString('ko-KR')}개${subInfo}</span>
+            </div>
+            <div class="rank-bar-bg"><div class="rank-bar" style="width:${barWidth}%"></div></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // 구독자 추이 다중 라인 차트
+  const allDates = [...new Set(
+    competitors.flatMap(c => (c.growth_history||[]).map(g => g.date))
+  )].sort();
+
+  new Chart(document.getElementById('chart-growth-compare'), {
+    type: 'line',
+    data: {
+      labels: allDates.map(d => d.slice(5)),
+      datasets: competitors.map((c, i) => ({
+        label: c.name,
+        data: allDates.map(date => {
+          const found = (c.growth_history||[]).find(g => g.date === date);
+          return found ? found.subscribers : null;
+        }),
+        borderColor: CHART_COLORS[i % CHART_COLORS.length],
+        backgroundColor: 'transparent',
+        borderWidth: c.is_target ? 3 : 1.5,
+        pointRadius: c.is_target ? 3 : 0,
+        tension: 0.3,
+        spanGaps: true,
+      }))
+    },
+    options: {
+      ...baseOptions,
+      scales: {
+        x: { ...baseOptions.scales.x },
+        y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => `${(v/10000).toFixed(0)}만` } }
+      }
+    }
+  });
+
+  // 채널 필터 + 최근 영상 목록
+  const filterEl = document.getElementById('channel-filter-btns');
+  const listEl = document.getElementById('channel-videos-list');
+
+  function showChannelVideos(channelId) {
+    const ch = competitors.find(c => c.channel_id === channelId);
+    if (!ch) return;
+    const vids = ch.recent_videos || [];
+    if (vids.length) {
+      listEl.innerHTML = vids.slice(0, 10).map(v => `
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px;font-size:13px">
+          <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank" style="color:var(--text);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.title}</a>
+          <span style="color:var(--text-muted);white-space:nowrap">${v.published_at.slice(5)}</span>
+          <span style="color:var(--accent2);white-space:nowrap">${fmt(v.view_count)}</span>
+        </div>
+      `).join('');
+    } else {
+      listEl.innerHTML = '<p style="color:var(--text-muted);font-size:13px">경쟁 채널 영상 데이터는 추후 수집 예정입니다.</p>';
+    }
+  }
+
+  filterEl.innerHTML = competitors.map(c => `
+    <button onclick="selectChannel('${c.channel_id}')" id="ch-btn-${c.channel_id.replace(/[^a-zA-Z0-9]/g,'')}"
+      style="padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;border:1px solid var(--border);background:none;color:var(--text-muted);transition:all 0.15s">
+      ${c.name}
+    </button>
+  `).join('');
+
+  window.selectChannel = function(channelId) {
+    document.querySelectorAll('#channel-filter-btns button').forEach(b => {
+      b.style.background = 'none';
+      b.style.color = 'var(--text-muted)';
+    });
+    const btn = document.getElementById('ch-btn-' + channelId.replace(/[^a-zA-Z0-9]/g,''));
+    if (btn) { btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; }
+    showChannelVideos(channelId);
+  };
+
+  // 타겟 채널(머니그라피) 기본 선택
+  const targetCh = competitors.find(c => c.is_target);
+  if (targetCh) window.selectChannel(targetCh.channel_id);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 메인: 데이터 로드
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function loadData() {
+  try {
+    const res = await fetch('data/dashboard.json?t=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    document.getElementById('updated-at').textContent =
+      '최종 업데이트: ' + (data.updated_at || '').replace('T',' ').slice(0,16);
+
+    renderContent(data);
+    renderPrograms(data);
+    renderGrowth(data);
+    renderCompare(data);
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  } catch (e) {
+    document.getElementById('loading').style.display = 'none';
+    const errEl = document.getElementById('error-msg');
+    errEl.style.display = 'block';
+    errEl.textContent = `데이터 로드 실패: ${e.message}\n\n먼저 python main.py 를 실행해 데이터를 수집해주세요.`;
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>
