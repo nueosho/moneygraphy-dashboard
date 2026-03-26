@@ -1,0 +1,40 @@
+name: 매일 데이터 수집 & 배포
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 매일 오전 9시 KST (= UTC 00:00)
+  workflow_dispatch:       # 수동 실행 버튼
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 패키지 설치
+        run: pip install -r requirements.txt
+
+      - name: DB 초기화
+        run: python -c "from src import db; db.init_db()"
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+
+      - name: 데이터 수집 & 대시보드 생성
+        run: python main.py
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+
+      - name: 변경사항 커밋 & 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/dashboard.json
+          git diff --staged --quiet || git commit -m "자동 업데이트: $(date '+%Y-%m-%d') 데이터 수집"
+          git push
