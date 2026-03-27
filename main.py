@@ -142,7 +142,7 @@ def save_daily_record_today(db):
             SUM(CASE WHEN is_short=0 THEN 1 ELSE 0 END) as lf_cnt,
             SUM(CASE WHEN is_short=1 THEN 1 ELSE 0 END) as sf_cnt
         FROM videos WHERE channel_id=? AND published_at=?
-    """, (TARGET, today))
+    """, (TARGET, kst_today))
     u = cur.fetchone()
     conn.close()
 
@@ -155,7 +155,7 @@ def save_daily_record_today(db):
             u['lf_cnt'] or 0 if u else 0,
             u['sf_cnt'] or 0 if u else 0
         )
-        logger.info("일별 기록 저장: %s", today)
+        logger.info("일별 기록 저장: %s", kst_today)
 
 
 def main():

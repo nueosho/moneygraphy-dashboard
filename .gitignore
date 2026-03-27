@@ -11,8 +11,7 @@ __pycache__/
 dist/
 build/
 
-# DB (로컬에서만 사용)
-data/*.db
+# 로그만 제외 (DB는 GitHub에 올려서 데이터 누적)
 data/run.log
 
 # macOS

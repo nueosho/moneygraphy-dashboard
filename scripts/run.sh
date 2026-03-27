@@ -32,4 +32,15 @@ if [ $EXIT_CODE -ne 0 ]; then
   echo "오류 발생 (exit code: $EXIT_CODE)" >> "$LOG_FILE"
 else
   echo "완료" >> "$LOG_FILE"
+
+  # GitHub Pages 자동 배포
+  cd "$PROJECT_DIR"
+  git add docs/data/dashboard.json
+  if ! git diff --cached --quiet; then
+    git commit -m "auto: 데이터 업데이트 $(date '+%Y-%m-%d')"
+    git push github main >> "$LOG_FILE" 2>&1
+    echo "GitHub 배포 완료" >> "$LOG_FILE"
+  else
+    echo "변경사항 없음, 배포 스킵" >> "$LOG_FILE"
+  fi
 fi
