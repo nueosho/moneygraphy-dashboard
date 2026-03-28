@@ -483,7 +483,7 @@
     </div>
     <div class="three-col">
       <div class="card">
-        <div class="card-title">🏆 주간 구독자 성장 랭킹</div>
+        <div class="card-title">🏆 주간 구독자 성장 랭킹 <span id="growth-rank-period" style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:6px"></span></div>
         <div class="rank-list" id="rank-weekly-growth"></div>
       </div>
       <div class="card">
@@ -501,7 +501,12 @@
     </div>
     <div class="card">
       <div class="card-title">🎬 채널별 최근 영상</div>
-      <div id="channel-filter-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px"></div>
+      <div id="channel-filter-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
+      <div style="display:flex;gap:6px;margin-bottom:12px">
+        <button id="vtype-all" onclick="setVideoType('all')" style="padding:4px 10px;font-size:11px;border-radius:6px;background:var(--accent);color:#fff;border:none;cursor:pointer">전체</button>
+        <button id="vtype-long" onclick="setVideoType('long')" style="padding:4px 10px;font-size:11px;border-radius:6px;background:none;color:var(--text-muted);border:1px solid var(--border);cursor:pointer">롱폼</button>
+        <button id="vtype-short" onclick="setVideoType('short')" style="padding:4px 10px;font-size:11px;border-radius:6px;background:none;color:var(--text-muted);border:1px solid var(--border);cursor:pointer">숏폼</button>
+      </div>
       <div id="channel-videos-list"></div>
     </div>
   </section>
@@ -1112,6 +1117,12 @@ function renderCompare(data) {
   }
 
   if (comp.weekly_growth_ranking) {
+    // 기간 표시
+    const today2 = new Date();
+    const w7 = new Date(today2); w7.setDate(today2.getDate() - 7);
+    const mmdd2 = d => `${d.getMonth()+1}.${String(d.getDate()).padStart(2,'0')}`;
+    const periodEl = document.getElementById('growth-rank-period');
+    if (periodEl) periodEl.textContent = `(${mmdd2(w7)} ~ ${mmdd2(today2)})`;
     renderRanking(
       document.getElementById('rank-weekly-growth'),
       comp.weekly_growth_ranking,
@@ -1189,23 +1200,49 @@ function renderCompare(data) {
   // 채널 필터 + 최근 영상 목록
   const filterEl = document.getElementById('channel-filter-btns');
   const listEl = document.getElementById('channel-videos-list');
+  let currentChannelId = null;
+  let currentVideoType = 'all';
 
-  function showChannelVideos(channelId) {
-    const ch = competitors.find(c => c.channel_id === channelId);
+  function renderChannelVideos() {
+    const ch = competitors.find(c => c.channel_id === currentChannelId);
     if (!ch) return;
-    const vids = ch.recent_videos || [];
-    if (vids.length) {
-      listEl.innerHTML = vids.slice(0, 10).map(v => `
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px;font-size:13px">
+    let vids = ch.recent_videos || [];
+    if (!vids.length) {
+      listEl.innerHTML = '<p style="color:var(--text-muted);font-size:13px">수집된 영상 데이터가 없습니다.</p>';
+      return;
+    }
+    if (currentVideoType === 'long') vids = vids.filter(v => !v.is_short);
+    else if (currentVideoType === 'short') vids = vids.filter(v => v.is_short);
+    if (!vids.length) {
+      listEl.innerHTML = '<p style="color:var(--text-muted);font-size:13px">해당 유형의 영상이 없습니다.</p>';
+      return;
+    }
+    listEl.innerHTML = vids.map(v => {
+      const badge = v.is_short
+        ? '<span style="background:#f87171;color:#fff;padding:1px 5px;border-radius:4px;font-size:10px;margin-right:4px">숏폼</span>'
+        : '<span style="background:#6366f1;color:#fff;padding:1px 5px;border-radius:4px;font-size:10px;margin-right:4px">롱폼</span>';
+      return `
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:13px">
+          ${badge}
           <a href="https://youtube.com/watch?v=${v.video_id}" target="_blank" style="color:var(--text);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.title}</a>
-          <span style="color:var(--text-muted);white-space:nowrap">${v.published_at.slice(5)}</span>
+          <span style="color:var(--text-muted);white-space:nowrap;font-size:11px">${v.published_at.slice(5)}</span>
           <span style="color:var(--accent2);white-space:nowrap">${fmt(v.view_count)}</span>
         </div>
-      `).join('');
-    } else {
-      listEl.innerHTML = '<p style="color:var(--text-muted);font-size:13px">경쟁 채널 영상 데이터는 추후 수집 예정입니다.</p>';
-    }
+      `;
+    }).join('');
   }
+
+  window.setVideoType = function(type) {
+    currentVideoType = type;
+    ['all','long','short'].forEach(t => {
+      const el = document.getElementById('vtype-' + t);
+      if (!el) return;
+      el.style.background = t === type ? 'var(--accent)' : 'none';
+      el.style.color = t === type ? '#fff' : 'var(--text-muted)';
+      el.style.border = t === type ? 'none' : '1px solid var(--border)';
+    });
+    renderChannelVideos();
+  };
 
   filterEl.innerHTML = competitors.map(c => `
     <button onclick="selectChannel('${c.channel_id}')" id="ch-btn-${c.channel_id.replace(/[^a-zA-Z0-9]/g,'')}"
@@ -1215,13 +1252,14 @@ function renderCompare(data) {
   `).join('');
 
   window.selectChannel = function(channelId) {
+    currentChannelId = channelId;
     document.querySelectorAll('#channel-filter-btns button').forEach(b => {
       b.style.background = 'none';
       b.style.color = 'var(--text-muted)';
     });
     const btn = document.getElementById('ch-btn-' + channelId.replace(/[^a-zA-Z0-9]/g,''));
     if (btn) { btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; }
-    showChannelVideos(channelId);
+    renderChannelVideos();
   };
 
   // 타겟 채널(머니그라피) 기본 선택
