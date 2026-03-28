@@ -105,6 +105,11 @@ def build_dashboard_json() -> dict:
     # ── 경쟁 채널 비교 ────────────────────────────────
     competitor_data = analyze.build_competitor_data()
 
+    # ── 인사이트 (벤치마크 / 콘텐츠 전략 / 성장 예측) ──
+    engagement_benchmark = analyze.build_engagement_benchmark()
+    content_insights = analyze.build_content_strategy_insights()
+    growth_prediction = analyze.build_growth_prediction(TARGET_CHANNEL_ID, target=1_000_000)
+
     weekly_growth_ranking = sorted(
         competitor_data, key=lambda x: x["weekly_growth"], reverse=True
     )
@@ -149,6 +154,9 @@ def build_dashboard_json() -> dict:
                 for c in upload_freq_ranking
             ],
         },
+        "engagement_benchmark": engagement_benchmark,
+        "content_insights": content_insights,
+        "growth_prediction": growth_prediction,
     }
 
 

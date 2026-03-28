@@ -215,6 +215,224 @@ def build_video_trend(video_id: str) -> list[dict]:
     ]
 
 
+def build_engagement_benchmark() -> list[dict]:
+    """채널별 평균 좋아요율/댓글율/숏폼비율 벤치마크"""
+    channels = db.get_all_channels()
+    result = []
+    for ch in channels:
+        cid = ch["channel_id"]
+        latest = db.get_latest_channel_stats(cid)
+        all_vids = db.get_recent_videos(cid, days=60)
+        if not all_vids:
+            continue
+        views = [v["view_count"] for v in all_vids if v.get("view_count") and v["view_count"] > 0]
+        likes = [v["like_count"] for v in all_vids if v.get("like_count")]
+        comments = [v["comment_count"] for v in all_vids if v.get("comment_count")]
+        shorts = [v for v in all_vids if v.get("is_short")]
+
+        avg_views = round(statistics.mean(views)) if views else 0
+        avg_like_rate = round(statistics.mean([
+            v["like_count"] / v["view_count"] * 100
+            for v in all_vids if v.get("view_count") and v["view_count"] > 0 and v.get("like_count")
+        ]), 3) if views else 0
+        avg_comment_rate = round(statistics.mean([
+            v["comment_count"] / v["view_count"] * 100
+            for v in all_vids if v.get("view_count") and v["view_count"] > 0 and v.get("comment_count")
+        ]), 3) if views else 0
+        short_ratio = round(len(shorts) / len(all_vids) * 100, 1) if all_vids else 0
+
+        result.append({
+            "channel_id": cid,
+            "name": ch["name"],
+            "is_target": ch["is_target"],
+            "subscriber_count": latest.get("subscriber_count", 0) or 0,
+            "avg_views": avg_views,
+            "avg_like_rate": avg_like_rate,
+            "avg_comment_rate": avg_comment_rate,
+            "short_ratio": short_ratio,
+            "video_count": len(all_vids),
+        })
+    result.sort(key=lambda x: x["subscriber_count"], reverse=True)
+    return result
+
+
+def build_content_strategy_insights() -> dict:
+    """업로드 간격 분석, 제목 길이 분석, 게스트 vs 레귤러 비교"""
+    import re
+    all_vids = db.get_all_target_videos()
+    if not all_vids:
+        return {}
+
+    # 1. 업로드 간격 vs 조회수
+    vids_sorted = sorted([v for v in all_vids if v.get("published_at")],
+                         key=lambda x: x["published_at"])
+    gap_analysis = []
+    for i in range(1, len(vids_sorted)):
+        try:
+            d1 = datetime.fromisoformat(vids_sorted[i-1]["published_at"][:10])
+            d2 = datetime.fromisoformat(vids_sorted[i]["published_at"][:10])
+            gap = (d2 - d1).days
+            if 0 <= gap <= 30:  # 30일 이하 간격만
+                gap_analysis.append({
+                    "gap_days": gap,
+                    "view_count": vids_sorted[i].get("view_count") or 0,
+                    "title": vids_sorted[i]["title"],
+                })
+        except:
+            pass
+
+    # 2. 제목 길이 vs 조회수
+    title_analysis = []
+    for v in all_vids:
+        if v.get("view_count") and v["view_count"] > 0:
+            title_len = len(v["title"])
+            title_analysis.append({
+                "title_length": title_len,
+                "view_count": v.get("view_count") or 0,
+                "title": v["title"],
+                "is_short": bool(v.get("is_short", 0)),
+            })
+
+    # 3. 게스트 영상(B주류초대석) vs 레귤러 영상 비교
+    guest_vids = [v for v in all_vids if v.get("program_name") == "B주류초대석"]
+    regular_vids = [v for v in all_vids if v.get("program_name") and v.get("program_name") != "B주류초대석"]
+    standalone_vids = [v for v in all_vids if not v.get("program_name")]
+
+    def avg_metric(vids, key):
+        vals = [v[key] for v in vids if v.get(key) and v[key] > 0]
+        return round(statistics.mean(vals)) if vals else 0
+
+    guest_stats = {
+        "count": len(guest_vids),
+        "avg_views": avg_metric(guest_vids, "view_count"),
+        "avg_likes": avg_metric(guest_vids, "like_count"),
+        "avg_comments": avg_metric(guest_vids, "comment_count"),
+    }
+    regular_stats = {
+        "count": len(regular_vids),
+        "avg_views": avg_metric(regular_vids, "view_count"),
+        "avg_likes": avg_metric(regular_vids, "like_count"),
+        "avg_comments": avg_metric(regular_vids, "comment_count"),
+    }
+    standalone_stats = {
+        "count": len(standalone_vids),
+        "avg_views": avg_metric(standalone_vids, "view_count"),
+        "avg_likes": avg_metric(standalone_vids, "like_count"),
+        "avg_comments": avg_metric(standalone_vids, "comment_count"),
+    }
+
+    # 제목 길이 구간별 평균 조회수
+    buckets = {"~20자": [], "21~40자": [], "41~60자": [], "61자+": []}
+    for t in title_analysis:
+        l = t["title_length"]
+        if l <= 20: buckets["~20자"].append(t["view_count"])
+        elif l <= 40: buckets["21~40자"].append(t["view_count"])
+        elif l <= 60: buckets["41~60자"].append(t["view_count"])
+        else: buckets["61자+"].append(t["view_count"])
+    title_bucket_stats = {
+        k: round(statistics.mean(v)) if v else 0
+        for k, v in buckets.items()
+    }
+
+    # 업로드 간격 구간별 평균 조회수
+    gap_buckets = {"당일(0일)": [], "1~3일": [], "4~7일": [], "8~14일": [], "15일+": []}
+    for g in gap_analysis:
+        d = g["gap_days"]
+        if d == 0: gap_buckets["당일(0일)"].append(g["view_count"])
+        elif d <= 3: gap_buckets["1~3일"].append(g["view_count"])
+        elif d <= 7: gap_buckets["4~7일"].append(g["view_count"])
+        elif d <= 14: gap_buckets["8~14일"].append(g["view_count"])
+        else: gap_buckets["15일+"].append(g["view_count"])
+    gap_bucket_stats = {
+        k: round(statistics.mean(v)) if v else 0
+        for k, v in gap_buckets.items()
+    }
+
+    return {
+        "upload_gap_by_views": gap_bucket_stats,
+        "title_length_by_views": title_bucket_stats,
+        "content_type_comparison": {
+            "guest": guest_stats,
+            "regular_program": regular_stats,
+            "standalone": standalone_stats,
+        },
+        "avg_upload_gap_days": round(statistics.mean([g["gap_days"] for g in gap_analysis]), 1) if gap_analysis else 0,
+    }
+
+
+def build_growth_prediction(channel_id: str, target: int = 1_000_000) -> dict:
+    """구독자 100만 달성 예측"""
+    history = db.get_channel_stats_history(channel_id, days=90)
+    latest = db.get_latest_channel_stats(channel_id)
+    current_subs = latest.get("subscriber_count", 0) or 0
+
+    result = {
+        "current_subscribers": current_subs,
+        "target_subscribers": target,
+        "remaining": max(0, target - current_subs),
+        "data_points": len(history),
+        "enough_data": len(history) >= 7,
+        "predicted_date": None,
+        "days_remaining": None,
+        "daily_growth_rate": None,
+        "growth_trend": [],
+    }
+
+    if len(history) >= 2:
+        # 일일 평균 증가량 계산 (선형 회귀)
+        from datetime import datetime as dt_cls
+        points = []
+        for i, h in enumerate(history):
+            try:
+                d = dt_cls.fromisoformat(h["collected_date"])
+                subs = h["subscriber_count"] or 0
+                points.append((i, subs))
+            except:
+                pass
+
+        if len(points) >= 2:
+            n = len(points)
+            sum_x = sum(p[0] for p in points)
+            sum_y = sum(p[1] for p in points)
+            sum_xy = sum(p[0]*p[1] for p in points)
+            sum_xx = sum(p[0]*p[0] for p in points)
+
+            denom = n * sum_xx - sum_x * sum_x
+            if denom != 0:
+                slope = (n * sum_xy - sum_x * sum_y) / denom
+                daily_growth = round(slope, 1)
+                result["daily_growth_rate"] = daily_growth
+
+                if daily_growth > 0 and current_subs < target:
+                    days_to_target = (target - current_subs) / daily_growth
+                    from datetime import date, timedelta
+                    predicted = date.today() + timedelta(days=int(days_to_target))
+                    result["predicted_date"] = predicted.isoformat()
+                    result["days_remaining"] = int(days_to_target)
+
+    # 추세선 데이터 (실제 + 예측)
+    for h in history[-30:]:
+        result["growth_trend"].append({
+            "date": h["collected_date"],
+            "subscribers": h["subscriber_count"] or 0,
+            "is_actual": True,
+        })
+
+    # 예측 포인트 (오늘부터 30일)
+    if result.get("daily_growth_rate") and result["daily_growth_rate"] > 0:
+        from datetime import date, timedelta
+        for i in range(1, 31):
+            future_date = date.today() + timedelta(days=i)
+            predicted_subs = min(current_subs + int(result["daily_growth_rate"] * i), target + 50000)
+            result["growth_trend"].append({
+                "date": future_date.isoformat(),
+                "subscribers": predicted_subs,
+                "is_actual": False,
+            })
+
+    return result
+
+
 def build_longform_view_trend(channel_id: str, days: int = 30) -> list[dict]:
     """롱폼 영상만 최근 N일 날짜별 총 조회수 추이"""
     videos = db.get_recent_videos(channel_id, days=days)

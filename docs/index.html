@@ -361,6 +361,7 @@
     <button class="tab-btn" data-tab="program">프로그램 분석</button>
     <button class="tab-btn" data-tab="growth">채널 성장</button>
     <button class="tab-btn" data-tab="compare">경쟁 채널 비교</button>
+    <button class="tab-btn" data-tab="insight">📊 인사이트</button>
   </nav>
 
   <!-- ═══════════════════════════════════════════════════
@@ -508,6 +509,41 @@
         <button id="vtype-short" onclick="setVideoType('short')" style="padding:4px 10px;font-size:11px;border-radius:6px;background:none;color:var(--text-muted);border:1px solid var(--border);cursor:pointer">숏폼</button>
       </div>
       <div id="channel-videos-list"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       탭 5: 인사이트
+  ════════════════════════════════════════════════════ -->
+  <section class="tab-panel" id="tab-insight">
+    <!-- 성장 예측 카드 -->
+    <div class="card">
+      <div class="card-title">🎯 구독자 100만 달성 예측</div>
+      <div id="growth-prediction-content"></div>
+      <div class="chart-wrap" style="max-height:300px"><canvas id="chart-growth-prediction"></canvas></div>
+    </div>
+
+    <!-- 경쟁채널 참여도 벤치마크 -->
+    <div class="card">
+      <div class="card-title">📊 경쟁 채널 참여도 벤치마크</div>
+      <div id="benchmark-content"></div>
+    </div>
+
+    <!-- 콘텐츠 전략 인사이트 -->
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">⏱ 업로드 간격별 평균 조회수</div>
+        <div class="chart-wrap"><canvas id="chart-upload-gap"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📝 제목 길이별 평균 조회수</div>
+        <div class="chart-wrap"><canvas id="chart-title-length"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👥 콘텐츠 유형별 성과 비교 (초대석 게스트 / 레귤러 프로그램 / 단독 영상)</div>
+      <div id="content-type-comparison"></div>
     </div>
   </section>
 </div>
@@ -1268,6 +1304,232 @@ function renderCompare(data) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 탭 5: 인사이트 렌더링
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderInsight(data) {
+  const gp = data.growth_prediction || {};
+  const ci = data.content_insights || {};
+  const eb = data.engagement_benchmark || [];
+
+  // ── 성장 예측 ──
+  const gpEl = document.getElementById('growth-prediction-content');
+  if (gpEl) {
+    const remaining = (gp.remaining || 0).toLocaleString('ko-KR');
+    const current = (gp.current_subscribers || 0).toLocaleString('ko-KR');
+    const pct = gp.target_subscribers ? Math.round((gp.current_subscribers || 0) / gp.target_subscribers * 100) : 0;
+    let predHtml = '';
+    if (gp.predicted_date && gp.days_remaining) {
+      const pd = new Date(gp.predicted_date);
+      predHtml = `
+        <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:12px">
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:800;color:var(--accent)">${gp.days_remaining.toLocaleString('ko-KR')}일</div>
+            <div style="font-size:12px;color:var(--text-muted)">예상 달성까지</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:800;color:var(--green)">${pd.getFullYear()}.${String(pd.getMonth()+1).padStart(2,'0')}.${String(pd.getDate()).padStart(2,'0')}</div>
+            <div style="font-size:12px;color:var(--text-muted)">예상 달성일</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:800;color:var(--accent2)">${(gp.daily_growth_rate||0).toLocaleString('ko-KR')}</div>
+            <div style="font-size:12px;color:var(--text-muted)">일평균 구독자 증가</div>
+          </div>
+        </div>
+      `;
+    } else {
+      predHtml = `<div style="color:var(--text-muted);font-size:13px;margin-top:8px">📡 예측을 위해 최소 7일 이상의 데이터가 필요합니다. (현재 ${gp.data_points || 0}일 수집됨)</div>`;
+    }
+    gpEl.innerHTML = `
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:13px;color:var(--text-muted)">현재 ${current}명 → 목표 100만명</span>
+          <span style="font-size:13px;font-weight:700;color:var(--accent)">${pct}%</span>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;height:12px;overflow:hidden">
+          <div style="background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;width:${pct}%;border-radius:8px;transition:width 0.8s"></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${remaining}명 남음</div>
+      </div>
+      ${predHtml}
+    `;
+  }
+
+  // 성장 예측 차트
+  if (document.getElementById('chart-growth-prediction') && gp.growth_trend && gp.growth_trend.length) {
+    const actual = gp.growth_trend.filter(g => g.is_actual);
+    const predicted = gp.growth_trend.filter(g => !g.is_actual);
+    const allDates = gp.growth_trend.map(g => g.date.slice(5));
+    const actualData = gp.growth_trend.map(g => g.is_actual ? g.subscribers : null);
+    const predictData = gp.growth_trend.map(g => !g.is_actual ? g.subscribers : null);
+
+    // 예측 데이터 연결을 위해 마지막 실제값 추가
+    const lastActualIdx = gp.growth_trend.reduce((acc, g, i) => g.is_actual ? i : acc, -1);
+    const predictDataConnected = [...predictData];
+    if (lastActualIdx >= 0) predictDataConnected[lastActualIdx] = gp.growth_trend[lastActualIdx].subscribers;
+
+    new Chart(document.getElementById('chart-growth-prediction'), {
+      type: 'line',
+      data: {
+        labels: allDates,
+        datasets: [
+          {
+            label: '실제 구독자',
+            data: actualData,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99,102,241,0.1)',
+            borderWidth: 2.5,
+            pointRadius: 3,
+            tension: 0.3,
+            spanGaps: false,
+          },
+          {
+            label: '예측',
+            data: predictDataConnected,
+            borderColor: '#34d399',
+            borderDash: [6, 4],
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.3,
+            spanGaps: false,
+          },
+          {
+            label: '목표 (100만)',
+            data: gp.growth_trend.map(() => 1000000),
+            borderColor: '#f87171',
+            borderDash: [3, 3],
+            borderWidth: 1.5,
+            pointRadius: 0,
+          }
+        ]
+      },
+      options: {
+        ...baseOptions,
+        scales: {
+          x: { ...baseOptions.scales.x },
+          y: {
+            ...baseOptions.scales.y,
+            ticks: { ...baseOptions.scales.y.ticks, callback: v => `${(v/10000).toFixed(0)}만` }
+          }
+        }
+      }
+    });
+  }
+
+  // ── 참여도 벤치마크 테이블 ──
+  const bEl = document.getElementById('benchmark-content');
+  if (bEl && eb.length) {
+    bEl.innerHTML = `
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:8px;color:var(--text-muted);font-weight:600">채널</th>
+              <th style="text-align:right;padding:8px;color:var(--text-muted);font-weight:600">구독자</th>
+              <th style="text-align:right;padding:8px;color:var(--text-muted);font-weight:600">평균조회수</th>
+              <th style="text-align:right;padding:8px;color:var(--text-muted);font-weight:600">좋아요율</th>
+              <th style="text-align:right;padding:8px;color:var(--text-muted);font-weight:600">댓글율</th>
+              <th style="text-align:right;padding:8px;color:var(--text-muted);font-weight:600">숏폼비율</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${eb.map(c => `
+              <tr style="border-bottom:1px solid var(--border);${c.is_target ? 'background:rgba(99,102,241,0.08)' : ''}">
+                <td style="padding:8px;font-weight:${c.is_target ? '700' : '400'}">${c.name}${c.is_target ? ' ⭐' : ''}</td>
+                <td style="text-align:right;padding:8px">${(c.subscriber_count/10000).toFixed(0)}만</td>
+                <td style="text-align:right;padding:8px">${fmt(c.avg_views)}</td>
+                <td style="text-align:right;padding:8px;color:${c.avg_like_rate >= 3 ? 'var(--green)' : c.avg_like_rate >= 1.5 ? 'var(--yellow)' : 'var(--red)'}">${c.avg_like_rate}%</td>
+                <td style="text-align:right;padding:8px">${c.avg_comment_rate}%</td>
+                <td style="text-align:right;padding:8px">${c.short_ratio}%</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--text-muted)">* 좋아요율 기준: 🟢 3%+ 우수 / 🟡 1.5%+ 보통 / 🔴 1.5%미만</div>
+    `;
+  }
+
+  // ── 업로드 간격별 차트 ──
+  if (document.getElementById('chart-upload-gap') && ci.upload_gap_by_views) {
+    const gapLabels = Object.keys(ci.upload_gap_by_views);
+    const gapVals = Object.values(ci.upload_gap_by_views);
+    new Chart(document.getElementById('chart-upload-gap'), {
+      type: 'bar',
+      data: {
+        labels: gapLabels,
+        datasets: [{
+          label: '평균 조회수',
+          data: gapVals,
+          backgroundColor: gapVals.map((v, i) => i === gapVals.indexOf(Math.max(...gapVals)) ? '#6366f1' : '#2e3347'),
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        ...baseOptions,
+        plugins: { ...baseOptions.plugins, legend: { display: false } },
+        scales: {
+          x: { ...baseOptions.scales.x },
+          y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => fmt(v) } }
+        }
+      }
+    });
+  }
+
+  // ── 제목 길이별 차트 ──
+  if (document.getElementById('chart-title-length') && ci.title_length_by_views) {
+    const tlLabels = Object.keys(ci.title_length_by_views);
+    const tlVals = Object.values(ci.title_length_by_views);
+    new Chart(document.getElementById('chart-title-length'), {
+      type: 'bar',
+      data: {
+        labels: tlLabels,
+        datasets: [{
+          label: '평균 조회수',
+          data: tlVals,
+          backgroundColor: tlVals.map((v, i) => i === tlVals.indexOf(Math.max(...tlVals)) ? '#22d3ee' : '#2e3347'),
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        ...baseOptions,
+        plugins: { ...baseOptions.plugins, legend: { display: false } },
+        scales: {
+          x: { ...baseOptions.scales.x },
+          y: { ...baseOptions.scales.y, ticks: { ...baseOptions.scales.y.ticks, callback: v => fmt(v) } }
+        }
+      }
+    });
+  }
+
+  // ── 콘텐츠 유형 비교 ──
+  const ctEl = document.getElementById('content-type-comparison');
+  if (ctEl && ci.content_type_comparison) {
+    const types = [
+      { key: 'guest', label: '👥 초대석 (게스트)', color: '#6366f1' },
+      { key: 'regular_program', label: '📺 레귤러 프로그램', color: '#22d3ee' },
+      { key: 'standalone', label: '🎬 단독 영상', color: '#a78bfa' },
+    ];
+    ctEl.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:8px">
+        ${types.map(t => {
+          const s = ci.content_type_comparison[t.key] || {};
+          return `
+            <div style="background:var(--surface2);border-radius:10px;padding:16px;border-left:3px solid ${t.color}">
+              <div style="font-size:13px;font-weight:700;margin-bottom:10px">${t.label}</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">영상 수: <span style="color:var(--text)">${s.count || 0}개</span></div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">평균 조회수: <span style="color:${t.color};font-weight:700">${fmt(s.avg_views || 0)}</span></div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">평균 좋아요: <span style="color:var(--text)">${fmt(s.avg_likes || 0)}</span></div>
+              <div style="font-size:12px;color:var(--text-muted)">평균 댓글: <span style="color:var(--text)">${fmt(s.avg_comments || 0)}</span></div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      ${ci.avg_upload_gap_days ? `<div style="margin-top:12px;font-size:12px;color:var(--text-muted)">📅 평균 업로드 간격: <span style="color:var(--text);font-weight:600">${ci.avg_upload_gap_days}일</span></div>` : ''}
+    `;
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 메인: 데이터 로드
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadData() {
@@ -1283,6 +1545,7 @@ async function loadData() {
     renderPrograms(data);
     renderGrowth(data);
     renderCompare(data);
+    renderInsight(data);
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
