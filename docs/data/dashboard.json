@@ -1,42 +1,90 @@
 {
-  "updated_at": "2026-05-13T03:45:56Z",
+  "updated_at": "2026-05-14T03:45:13Z",
   "weekly_comparison": {
     "subscriber": {
-      "current": 744000,
-      "delta": 17000,
-      "rate": 2.34
+      "current": 747000,
+      "delta": 18000,
+      "rate": 2.47
     },
     "comments": {
-      "current": 121619,
-      "delta": 5705,
-      "rate": 4.92
+      "current": 122841,
+      "delta": 7221,
+      "rate": 6.25
     },
     "views": {
-      "current": 146534461,
-      "delta": 17121417,
-      "rate": 13.23
+      "current": 150589942,
+      "delta": 21072169,
+      "rate": 16.27
     }
   },
   "target_channel": {
     "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
     "name": "머니그라피",
-    "subscriber_count": 744000,
-    "view_count": 218100571,
-    "video_count": 789,
+    "subscriber_count": 747000,
+    "view_count": 218880653,
+    "video_count": 791,
     "recent_videos": [
       {
+        "video_id": "5aEI9cJGKak",
+        "title": "다시 보는 간지 친구 섭외 비하인드",
+        "published_at": "2026-05-14",
+        "published_weekday": "목",
+        "program_name": null,
+        "episode_number": null,
+        "duration_seconds": 36,
+        "is_short": true,
+        "view_count": 20569,
+        "like_count": 525,
+        "comment_count": 37,
+        "like_rate": 2.55,
+        "comment_rate": 0.18,
+        "is_outlier": false,
+        "trend": [
+          {
+            "date": "2026-05-14",
+            "view_count": 20569,
+            "like_count": 525,
+            "comment_count": 37
+          }
+        ]
+      },
+      {
+        "video_id": "4UWzHhqAkQo",
+        "title": "(비밀파티) 술탄과 댓글 읽기",
+        "published_at": "2026-05-13",
+        "published_weekday": "수",
+        "program_name": null,
+        "episode_number": null,
+        "duration_seconds": 76,
+        "is_short": true,
+        "view_count": 170073,
+        "like_count": 3646,
+        "comment_count": 178,
+        "like_rate": 2.14,
+        "comment_rate": 0.1,
+        "is_outlier": false,
+        "trend": [
+          {
+            "date": "2026-05-14",
+            "view_count": 170073,
+            "like_count": 3646,
+            "comment_count": 178
+          }
+        ]
+      },
+      {
         "video_id": "AggA2h8QgCg",
-        "title": "허키의 친구를 소개합니다",
+        "title": "(비밀파티) 허키의 친구를 소개합니다",
         "published_at": "2026-05-12",
         "published_weekday": "화",
         "program_name": null,
         "episode_number": null,
         "duration_seconds": 56,
         "is_short": true,
-        "view_count": 211329,
-        "like_count": 3755,
-        "comment_count": 114,
-        "like_rate": 1.78,
+        "view_count": 255016,
+        "like_count": 4201,
+        "comment_count": 131,
+        "like_rate": 1.65,
         "comment_rate": 0.05,
         "is_outlier": false,
         "trend": [
@@ -45,23 +93,29 @@
             "view_count": 211329,
             "like_count": 3755,
             "comment_count": 114
+          },
+          {
+            "date": "2026-05-14",
+            "view_count": 255016,
+            "like_count": 4201,
+            "comment_count": 131
           }
         ]
       },
       {
         "video_id": "Lyok5SuY5kw",
-        "title": "카더가든이 왜 여기서 나와",
+        "title": "(비밀파티) 카더가든이 왜 여기서 나와",
         "published_at": "2026-05-12",
         "published_weekday": "화",
         "program_name": null,
         "episode_number": null,
         "duration_seconds": 45,
         "is_short": true,
-        "view_count": 232343,
-        "like_count": 4224,
-        "comment_count": 162,
-        "like_rate": 1.82,
-        "comment_rate": 0.07,
+        "view_count": 306114,
+        "like_count": 5040,
+        "comment_count": 184,
+        "like_rate": 1.65,
+        "comment_rate": 0.06,
         "is_outlier": false,
         "trend": [
           {
@@ -69,23 +123,29 @@
             "view_count": 232343,
             "like_count": 4224,
             "comment_count": 162
+          },
+          {
+            "date": "2026-05-14",
+            "view_count": 306114,
+            "like_count": 5040,
+            "comment_count": 184
           }
         ]
       },
       {
         "video_id": "XjpMjJFTJdc",
-        "title": "그날 술탄 합주실에서 생긴 일",
+        "title": "(비밀파티) 그날 술탄 합주실에서 생긴 일",
         "published_at": "2026-05-11",
         "published_weekday": "월",
         "program_name": null,
         "episode_number": null,
         "duration_seconds": 48,
         "is_short": true,
-        "view_count": 494911,
-        "like_count": 11275,
-        "comment_count": 401,
-        "like_rate": 2.28,
-        "comment_rate": 0.08,
+        "view_count": 548490,
+        "like_count": 11937,
+        "comment_count": 407,
+        "like_rate": 2.18,
+        "comment_rate": 0.07,
         "is_outlier": false,
         "trend": [
           {
@@ -99,6 +159,12 @@
             "view_count": 494911,
             "like_count": 11275,
             "comment_count": 401
+          },
+          {
+            "date": "2026-05-14",
+            "view_count": 548490,
+            "like_count": 11937,
+            "comment_count": 407
           }
         ]
       },
@@ -111,10 +177,10 @@
         "episode_number": null,
         "duration_seconds": 60,
         "is_short": true,
-        "view_count": 464586,
-        "like_count": 10467,
-        "comment_count": 320,
-        "like_rate": 2.25,
+        "view_count": 502936,
+        "like_count": 10942,
+        "comment_count": 333,
+        "like_rate": 2.18,
         "comment_rate": 0.07,
         "is_outlier": false,
         "trend": [
@@ -129,6 +195,12 @@
             "view_count": 464586,
             "like_count": 10467,
             "comment_count": 320
+          },
+          {
+            "date": "2026-05-14",
+            "view_count": 502936,
+            "like_count": 10942,
+            "comment_count": 333
           }
         ]
       },
@@ -141,10 +213,10 @@
         "episode_number": null,
         "duration_seconds": 103,
         "is_short": true,
-        "view_count": 695127,
-        "like_count": 13461,
-        "comment_count": 718,
-        "like_rate": 1.94,
+        "view_count": 732777,
+        "like_count": 13951,
+        "comment_count": 739,
+        "like_rate": 1.9,
         "comment_rate": 0.1,
         "is_outlier": false,
         "trend": [
@@ -183,6 +255,12 @@
             "view_count": 695127,
             "like_count": 13461,
             "comment_count": 718
+          },
+          {
+            "date": "2026-05-14",
+            "view_count": 732777,
+            "like_count": 13951,
+            "comment_count": 739
           }
         ]
       },
@@ -195,10 +273,10 @@
         "episode_number": null,
         "duration_seconds": 50,
         "is_short": true,
-        "view_count": 725853,
-        "like_count": 10057,
+        "view_count": 746105,
+        "like_count": 10277,
         "comment_count": 230,
-        "like_rate": 1.39,
+        "like_rate": 1.38,
         "comment_rate": 0.03,
         "is_outlier": false,
         "trend": [
@@ -255,10 +333,10 @@
         "episode_number": null,
         "duration_seconds": 54,
         "is_short": true,
-        "view_count": 382051,
-        "like_count": 5537,
-        "comment_count": 130,
-        "like_rate": 1.45,
+        "view_count": 392969,
+        "like_count": 5631,
+        "comment_count": 132,
+        "like_rate": 1.43,
         "comment_rate": 0.03,
         "is_outlier": false,
         "trend": [
@@ -315,10 +393,10 @@
         "episode_number": null,
         "duration_seconds": 55,
         "is_short": true,
-        "view_count": 405807,
-        "like_count": 5559,
-        "comment_count": 112,
-        "like_rate": 1.37,
+        "view_count": 417004,
+        "like_count": 5641,
+        "comment_count": 113,
+        "like_rate": 1.35,
         "comment_rate": 0.03,
         "is_outlier": false,
         "trend": [
@@ -375,9 +453,9 @@
         "episode_number": null,
         "duration_seconds": 52,
         "is_short": true,
-        "view_count": 275242,
-        "like_count": 2754,
-        "comment_count": 97,
+        "view_count": 282275,
+        "like_count": 2822,
+        "comment_count": 99,
         "like_rate": 1.0,
         "comment_rate": 0.04,
         "is_outlier": false,
@@ -435,10 +513,10 @@
         "episode_number": null,
         "duration_seconds": 53,
         "is_short": true,
-        "view_count": 453141,
-        "like_count": 6456,
-        "comment_count": 130,
-        "like_rate": 1.42,
+        "view_count": 465575,
+        "like_count": 6640,
+        "comment_count": 132,
+        "like_rate": 1.43,
         "comment_rate": 0.03,
         "is_outlier": false,
         "trend": [
@@ -495,10 +573,10 @@
         "episode_number": null,
         "duration_seconds": 56,
         "is_short": true,
-        "view_count": 444143,
-        "like_count": 5662,
+        "view_count": 454576,
+        "like_count": 5798,
         "comment_count": 76,
-        "like_rate": 1.27,
+        "like_rate": 1.28,
         "comment_rate": 0.02,
         "is_outlier": false,
         "trend": [
@@ -555,10 +633,10 @@
         "episode_number": null,
         "duration_seconds": 60,
         "is_short": true,
-        "view_count": 507605,
-        "like_count": 8708,
-        "comment_count": 294,
-        "like_rate": 1.72,
+        "view_count": 525174,
+        "like_count": 8878,
+        "comment_count": 298,
+        "like_rate": 1.69,
         "comment_rate": 0.06,
         "is_outlier": false,
         "trend": [
@@ -615,10 +693,10 @@
         "episode_number": null,
         "duration_seconds": 60,
         "is_short": true,
-        "view_count": 845387,
-        "like_count": 15107,
-        "comment_count": 181,
-        "like_rate": 1.79,
+        "view_count": 881251,
+        "like_count": 15656,
+        "comment_count": 187,
+        "like_rate": 1.78,
         "comment_rate": 0.02,
         "is_outlier": false,
         "trend": [
@@ -675,10 +753,10 @@
         "episode_number": null,
         "duration_seconds": 52,
         "is_short": true,
-        "view_count": 597813,
-        "like_count": 9543,
-        "comment_count": 294,
-        "like_rate": 1.6,
+        "view_count": 618475,
+        "like_count": 9857,
+        "comment_count": 299,
+        "like_rate": 1.59,
         "comment_rate": 0.05,
         "is_outlier": false,
         "trend": [
@@ -735,9 +813,9 @@
         "episode_number": null,
         "duration_seconds": 31,
         "is_short": true,
-        "view_count": 463478,
-        "like_count": 5529,
-        "comment_count": 133,
+        "view_count": 469641,
+        "like_count": 5599,
+        "comment_count": 135,
         "like_rate": 1.19,
         "comment_rate": 0.03,
         "is_outlier": false,
@@ -795,10 +873,10 @@
         "episode_number": null,
         "duration_seconds": 46,
         "is_short": true,
-        "view_count": 344848,
-        "like_count": 7113,
-        "comment_count": 490,
-        "like_rate": 2.06,
+        "view_count": 349415,
+        "like_count": 7179,
+        "comment_count": 493,
+        "like_rate": 2.05,
         "comment_rate": 0.14,
         "is_outlier": false,
         "trend": [
@@ -855,8 +933,8 @@
         "episode_number": null,
         "duration_seconds": 71,
         "is_short": true,
-        "view_count": 98061,
-        "like_count": 1170,
+        "view_count": 99881,
+        "like_count": 1186,
         "comment_count": 77,
         "like_rate": 1.19,
         "comment_rate": 0.08,
@@ -915,11 +993,11 @@
         "episode_number": null,
         "duration_seconds": 4815,
         "is_short": false,
-        "view_count": 1137088,
-        "like_count": 16674,
-        "comment_count": 2805,
-        "like_rate": 1.47,
-        "comment_rate": 0.25,
+        "view_count": 1151931,
+        "like_count": 16865,
+        "comment_count": 2818,
+        "like_rate": 1.46,
+        "comment_rate": 0.24,
         "is_outlier": true,
         "trend": [
           {
@@ -975,10 +1053,10 @@
         "episode_number": null,
         "duration_seconds": 33,
         "is_short": true,
-        "view_count": 388623,
-        "like_count": 7489,
+        "view_count": 393710,
+        "like_count": 7554,
         "comment_count": 260,
-        "like_rate": 1.93,
+        "like_rate": 1.92,
         "comment_rate": 0.07,
         "is_outlier": false,
         "trend": [
@@ -1035,8 +1113,8 @@
         "episode_number": null,
         "duration_seconds": 34,
         "is_short": true,
-        "view_count": 62991,
-        "like_count": 406,
+        "view_count": 64322,
+        "like_count": 409,
         "comment_count": 9,
         "like_rate": 0.64,
         "comment_rate": 0.01,
@@ -1095,10 +1173,10 @@
         "episode_number": null,
         "duration_seconds": 39,
         "is_short": true,
-        "view_count": 424367,
-        "like_count": 6503,
+        "view_count": 429396,
+        "like_count": 6541,
         "comment_count": 386,
-        "like_rate": 1.53,
+        "like_rate": 1.52,
         "comment_rate": 0.09,
         "is_outlier": false,
         "trend": [
@@ -1155,8 +1233,8 @@
         "episode_number": null,
         "duration_seconds": 58,
         "is_short": true,
-        "view_count": 67692,
-        "like_count": 243,
+        "view_count": 68727,
+        "like_count": 246,
         "comment_count": 20,
         "like_rate": 0.36,
         "comment_rate": 0.03,
@@ -1215,8 +1293,8 @@
         "episode_number": null,
         "duration_seconds": 52,
         "is_short": true,
-        "view_count": 717740,
-        "like_count": 9703,
+        "view_count": 732224,
+        "like_count": 9855,
         "comment_count": 225,
         "like_rate": 1.35,
         "comment_rate": 0.03,
@@ -1275,10 +1353,10 @@
         "episode_number": null,
         "duration_seconds": 74,
         "is_short": true,
-        "view_count": 399280,
-        "like_count": 6501,
-        "comment_count": 577,
-        "like_rate": 1.63,
+        "view_count": 405682,
+        "like_count": 6553,
+        "comment_count": 580,
+        "like_rate": 1.62,
         "comment_rate": 0.14,
         "is_outlier": false,
         "trend": [
@@ -1335,8 +1413,8 @@
         "episode_number": null,
         "duration_seconds": 47,
         "is_short": true,
-        "view_count": 177621,
-        "like_count": 1515,
+        "view_count": 178744,
+        "like_count": 1522,
         "comment_count": 45,
         "like_rate": 0.85,
         "comment_rate": 0.03,
@@ -1395,10 +1473,10 @@
         "episode_number": null,
         "duration_seconds": 53,
         "is_short": true,
-        "view_count": 630973,
-        "like_count": 11202,
+        "view_count": 640918,
+        "like_count": 11313,
         "comment_count": 243,
-        "like_rate": 1.78,
+        "like_rate": 1.77,
         "comment_rate": 0.04,
         "is_outlier": false,
         "trend": [
@@ -1455,8 +1533,8 @@
         "episode_number": null,
         "duration_seconds": 37,
         "is_short": true,
-        "view_count": 161479,
-        "like_count": 793,
+        "view_count": 162734,
+        "like_count": 796,
         "comment_count": 42,
         "like_rate": 0.49,
         "comment_rate": 0.03,
@@ -1515,8 +1593,8 @@
         "episode_number": null,
         "duration_seconds": 32,
         "is_short": true,
-        "view_count": 180938,
-        "like_count": 895,
+        "view_count": 182503,
+        "like_count": 900,
         "comment_count": 42,
         "like_rate": 0.49,
         "comment_rate": 0.02,
@@ -1575,9 +1653,9 @@
         "episode_number": null,
         "duration_seconds": 3813,
         "is_short": false,
-        "view_count": 352640,
-        "like_count": 4911,
-        "comment_count": 208,
+        "view_count": 354161,
+        "like_count": 4927,
+        "comment_count": 207,
         "like_rate": 1.39,
         "comment_rate": 0.06,
         "is_outlier": false,
@@ -1635,8 +1713,8 @@
         "episode_number": null,
         "duration_seconds": 48,
         "is_short": true,
-        "view_count": 154385,
-        "like_count": 553,
+        "view_count": 155409,
+        "like_count": 558,
         "comment_count": 37,
         "like_rate": 0.36,
         "comment_rate": 0.02,
@@ -1695,8 +1773,8 @@
         "episode_number": null,
         "duration_seconds": 64,
         "is_short": true,
-        "view_count": 619514,
-        "like_count": 3951,
+        "view_count": 620825,
+        "like_count": 3962,
         "comment_count": 178,
         "like_rate": 0.64,
         "comment_rate": 0.03,
@@ -1755,11 +1833,11 @@
         "episode_number": null,
         "duration_seconds": 79,
         "is_short": true,
-        "view_count": 908221,
-        "like_count": 16752,
-        "comment_count": 320,
-        "like_rate": 1.84,
-        "comment_rate": 0.04,
+        "view_count": 930124,
+        "like_count": 17061,
+        "comment_count": 321,
+        "like_rate": 1.83,
+        "comment_rate": 0.03,
         "is_outlier": true,
         "trend": [
           {
@@ -1815,9 +1893,9 @@
         "episode_number": null,
         "duration_seconds": 30,
         "is_short": true,
-        "view_count": 571187,
-        "like_count": 6171,
-        "comment_count": 149,
+        "view_count": 582765,
+        "like_count": 6275,
+        "comment_count": 148,
         "like_rate": 1.08,
         "comment_rate": 0.03,
         "is_outlier": false,
@@ -1875,10 +1953,10 @@
         "episode_number": null,
         "duration_seconds": 42,
         "is_short": true,
-        "view_count": 429568,
-        "like_count": 7839,
-        "comment_count": 156,
-        "like_rate": 1.82,
+        "view_count": 441453,
+        "like_count": 8002,
+        "comment_count": 159,
+        "like_rate": 1.81,
         "comment_rate": 0.04,
         "is_outlier": false,
         "trend": [
@@ -1935,8 +2013,8 @@
         "episode_number": null,
         "duration_seconds": 36,
         "is_short": true,
-        "view_count": 884897,
-        "like_count": 13783,
+        "view_count": 907890,
+        "like_count": 14133,
         "comment_count": 248,
         "like_rate": 1.56,
         "comment_rate": 0.03,
@@ -1995,8 +2073,8 @@
         "episode_number": null,
         "duration_seconds": 64,
         "is_short": true,
-        "view_count": 101651,
-        "like_count": 465,
+        "view_count": 102439,
+        "like_count": 468,
         "comment_count": 42,
         "like_rate": 0.46,
         "comment_rate": 0.04,
@@ -2055,8 +2133,8 @@
         "episode_number": null,
         "duration_seconds": 29,
         "is_short": true,
-        "view_count": 451783,
-        "like_count": 7014,
+        "view_count": 459208,
+        "like_count": 7111,
         "comment_count": 135,
         "like_rate": 1.55,
         "comment_rate": 0.03,
@@ -2115,8 +2193,8 @@
         "episode_number": null,
         "duration_seconds": 2240,
         "is_short": false,
-        "view_count": 213910,
-        "like_count": 2033,
+        "view_count": 214318,
+        "like_count": 2034,
         "comment_count": 133,
         "like_rate": 0.95,
         "comment_rate": 0.06,
@@ -2175,10 +2253,10 @@
         "episode_number": null,
         "duration_seconds": 41,
         "is_short": true,
-        "view_count": 958398,
-        "like_count": 14750,
-        "comment_count": 230,
-        "like_rate": 1.54,
+        "view_count": 982293,
+        "like_count": 15052,
+        "comment_count": 231,
+        "like_rate": 1.53,
         "comment_rate": 0.02,
         "is_outlier": true,
         "trend": [
@@ -2235,8 +2313,8 @@
         "episode_number": null,
         "duration_seconds": 59,
         "is_short": true,
-        "view_count": 368425,
-        "like_count": 5258,
+        "view_count": 371731,
+        "like_count": 5309,
         "comment_count": 242,
         "like_rate": 1.43,
         "comment_rate": 0.07,
@@ -2295,8 +2373,8 @@
         "episode_number": null,
         "duration_seconds": 46,
         "is_short": true,
-        "view_count": 127906,
-        "like_count": 639,
+        "view_count": 128577,
+        "like_count": 644,
         "comment_count": 69,
         "like_rate": 0.5,
         "comment_rate": 0.05,
@@ -2355,8 +2433,8 @@
         "episode_number": null,
         "duration_seconds": 1401,
         "is_short": false,
-        "view_count": 640579,
-        "like_count": 9316,
+        "view_count": 647775,
+        "like_count": 9373,
         "comment_count": 1230,
         "like_rate": 1.45,
         "comment_rate": 0.19,
@@ -2415,8 +2493,8 @@
         "episode_number": null,
         "duration_seconds": 41,
         "is_short": true,
-        "view_count": 321613,
-        "like_count": 2165,
+        "view_count": 322402,
+        "like_count": 2166,
         "comment_count": 64,
         "like_rate": 0.67,
         "comment_rate": 0.02,
@@ -2475,8 +2553,8 @@
         "episode_number": null,
         "duration_seconds": 45,
         "is_short": true,
-        "view_count": 158721,
-        "like_count": 946,
+        "view_count": 159289,
+        "like_count": 948,
         "comment_count": 17,
         "like_rate": 0.6,
         "comment_rate": 0.01,
@@ -2535,8 +2613,8 @@
         "episode_number": null,
         "duration_seconds": 48,
         "is_short": true,
-        "view_count": 178638,
-        "like_count": 1386,
+        "view_count": 179195,
+        "like_count": 1389,
         "comment_count": 243,
         "like_rate": 0.78,
         "comment_rate": 0.14,
@@ -2595,9 +2673,9 @@
         "episode_number": null,
         "duration_seconds": 4330,
         "is_short": false,
-        "view_count": 1495807,
-        "like_count": 21750,
-        "comment_count": 4531,
+        "view_count": 1510441,
+        "like_count": 21893,
+        "comment_count": 4536,
         "like_rate": 1.45,
         "comment_rate": 0.3,
         "is_outlier": true,
@@ -2655,10 +2733,10 @@
         "episode_number": null,
         "duration_seconds": 41,
         "is_short": true,
-        "view_count": 745667,
-        "like_count": 10654,
-        "comment_count": 281,
-        "like_rate": 1.43,
+        "view_count": 761823,
+        "like_count": 10833,
+        "comment_count": 283,
+        "like_rate": 1.42,
         "comment_rate": 0.04,
         "is_outlier": false,
         "trend": [
@@ -2715,10 +2793,10 @@
         "episode_number": null,
         "duration_seconds": 64,
         "is_short": true,
-        "view_count": 360383,
-        "like_count": 6004,
+        "view_count": 362312,
+        "like_count": 6019,
         "comment_count": 223,
-        "like_rate": 1.67,
+        "like_rate": 1.66,
         "comment_rate": 0.06,
         "is_outlier": false,
         "trend": [
@@ -3605,88 +3683,28 @@
             "comment_count": 76
           }
         ]
-      },
-      {
-        "video_id": "XLOBSf252AU",
-        "title": "나쁜 뜻으로 얘기한 거 아니에요",
-        "published_at": "2026-03-14",
-        "published_weekday": "토",
-        "program_name": null,
-        "episode_number": null,
-        "duration_seconds": 94,
-        "is_short": true,
-        "view_count": 464872,
-        "like_count": 8108,
-        "comment_count": 179,
-        "like_rate": 1.74,
-        "comment_rate": 0.04,
-        "is_outlier": false,
-        "trend": [
-          {
-            "date": "2026-03-25",
-            "view_count": 322964,
-            "like_count": 6241,
-            "comment_count": 151
-          },
-          {
-            "date": "2026-03-27",
-            "view_count": 331615,
-            "like_count": 6364,
-            "comment_count": 152
-          },
-          {
-            "date": "2026-04-03",
-            "view_count": 369638,
-            "like_count": 6846,
-            "comment_count": 158
-          },
-          {
-            "date": "2026-04-04",
-            "view_count": 373756,
-            "like_count": 6902,
-            "comment_count": 158
-          },
-          {
-            "date": "2026-04-05",
-            "view_count": 379859,
-            "like_count": 6982,
-            "comment_count": 158
-          },
-          {
-            "date": "2026-04-06",
-            "view_count": 385590,
-            "like_count": 7054,
-            "comment_count": 163
-          },
-          {
-            "date": "2026-04-07",
-            "view_count": 391799,
-            "like_count": 7122,
-            "comment_count": 166
-          }
-        ]
       }
     ],
     "longform_trend": [
       {
         "date": "2026-04-16",
-        "view_count": 352640,
+        "view_count": 354161,
         "videos": [
           {
             "video_id": "M-NxLzCNH-s",
             "title": "[최종화] 매거진 B 조수용 발행인이 말하는 브랜드에 대한 오해와 진실, 그리고 일의 본질 | B주류경제학",
-            "view_count": 352640
+            "view_count": 354161
           }
         ]
       },
       {
         "date": "2026-04-23",
-        "view_count": 1137088,
+        "view_count": 1151931,
         "videos": [
           {
             "video_id": "ZaL_h9fKb7E",
             "title": "[대단원] 조리돌림과 깊생토론을 넘나드는 허간민의 고민상담 필리버스터 (w. 조혜련) | B주류초대석",
-            "view_count": 1137088
+            "view_count": 1151931
           }
         ]
       }
@@ -3694,8 +3712,8 @@
     "upload_heatmap": {
       "월": 17,
       "화": 32,
-      "수": 16,
-      "목": 26,
+      "수": 17,
+      "목": 27,
       "금": 12,
       "토": 8,
       "일": 7
@@ -3705,51 +3723,51 @@
         "name": "B주류초대석",
         "status": "방영중",
         "episode_count": 6,
-        "avg_view_count": 1097050,
-        "avg_like_count": 17305,
-        "avg_comment_count": 3169,
+        "avg_view_count": 1103163,
+        "avg_like_count": 17370,
+        "avg_comment_count": 3172,
         "latest_episode": {
           "video_id": "ZaL_h9fKb7E",
           "title": "[대단원] 조리돌림과 깊생토론을 넘나드는 허간민의 고민상담 필리버스터 (w. 조혜련) | B주류초대석",
           "published_at": "2026-04-23",
           "episode_number": null,
-          "view_count": 1137088,
-          "like_count": 16674,
-          "comment_count": 2805,
-          "like_rate": 1.47,
-          "comment_rate": 0.25
+          "view_count": 1151931,
+          "like_count": 16865,
+          "comment_count": 2818,
+          "like_rate": 1.46,
+          "comment_rate": 0.24
         },
         "prev_episode": {
           "video_id": "0k0uOew5STQ",
           "title": "(미방분 모음) 이제는 너무 친해진 허간민의 한국 영화 미방분 & 독립영화관 소개 | B주류초대석",
           "published_at": "2026-04-06",
           "episode_number": null,
-          "view_count": 640579,
-          "like_count": 9316,
+          "view_count": 647775,
+          "like_count": 9373,
           "comment_count": 1230,
           "like_rate": 1.45,
           "comment_rate": 0.19
         },
         "delta": {
-          "likes": 7358,
-          "comments": 1575
+          "likes": 7492,
+          "comments": 1588
         }
       },
       {
         "name": "B주류경제학",
         "status": "방영중",
         "episode_count": 4,
-        "avg_view_count": 251896,
-        "avg_like_count": 2934,
+        "avg_view_count": 252378,
+        "avg_like_count": 2938,
         "avg_comment_count": 172,
         "latest_episode": {
           "video_id": "M-NxLzCNH-s",
           "title": "[최종화] 매거진 B 조수용 발행인이 말하는 브랜드에 대한 오해와 진실, 그리고 일의 본질 | B주류경제학",
           "published_at": "2026-04-16",
           "episode_number": null,
-          "view_count": 352640,
-          "like_count": 4911,
-          "comment_count": 208,
+          "view_count": 354161,
+          "like_count": 4927,
+          "comment_count": 207,
           "like_rate": 1.39,
           "comment_rate": 0.06
         },
@@ -3758,15 +3776,15 @@
           "title": "인스타가 홈쇼핑을 대체했다? 팔이피플 논란에도 공동구매가 계속 떠오르는 이유 (w. 뽀큐트) | B주류경제학",
           "published_at": "2026-04-09",
           "episode_number": null,
-          "view_count": 213910,
-          "like_count": 2033,
+          "view_count": 214318,
+          "like_count": 2034,
           "comment_count": 133,
           "like_rate": 0.95,
           "comment_rate": 0.06
         },
         "delta": {
-          "likes": 2878,
-          "comments": 75
+          "likes": 2893,
+          "comments": 74
         }
       },
       {
@@ -4031,6 +4049,17 @@
       "total_comment_count": 939,
       "longform_count": 0,
       "shortform_count": 7
+    },
+    {
+      "id": 8,
+      "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
+      "week_start": "2026-05-14",
+      "week_end": "2026-05-21",
+      "subscriber_count": 747000,
+      "total_view_count": 2515406,
+      "total_comment_count": 1972,
+      "longform_count": 0,
+      "shortform_count": 6
     }
   ],
   "monthly_snapshots": [
@@ -4046,6 +4075,23 @@
     }
   ],
   "daily_records": [
+    {
+      "id": 44,
+      "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
+      "record_date": "2026-05-14",
+      "subscriber_count": 747000,
+      "total_view_count": 22843637,
+      "total_comment_count": 17696,
+      "total_like_count": 336117,
+      "longform_view_count": 3878626,
+      "longform_comment_count": 8924,
+      "longform_like_count": 55092,
+      "shortform_view_count": 18965011,
+      "shortform_comment_count": 8772,
+      "shortform_like_count": 281025,
+      "longform_upload_count": 0,
+      "shortform_upload_count": 1
+    },
     {
       "id": 43,
       "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
@@ -4623,23 +4669,6 @@
       "shortform_like_count": 274272,
       "longform_upload_count": 0,
       "shortform_upload_count": 0
-    },
-    {
-      "id": 9,
-      "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
-      "record_date": "2026-04-09",
-      "subscriber_count": 686000,
-      "total_view_count": 23522680,
-      "total_comment_count": 24211,
-      "total_like_count": 369354,
-      "longform_view_count": 4628893,
-      "longform_comment_count": 15332,
-      "longform_like_count": 80713,
-      "shortform_view_count": 18893787,
-      "shortform_comment_count": 8879,
-      "shortform_like_count": 288641,
-      "longform_upload_count": 0,
-      "shortform_upload_count": 0
     }
   ],
   "competitors": [
@@ -4650,7 +4679,7 @@
       "subscriber_count": 3690000,
       "weekly_growth": 0,
       "weekly_growth_rate": 0.0,
-      "avg_views_per_video": 411408,
+      "avg_views_per_video": 412202,
       "weekly_upload_count": 6,
       "weekly_longform_count": 6,
       "weekly_shortform_count": 0,
@@ -4714,73 +4743,73 @@
       ],
       "recent_videos": [
         {
+          "video_id": "gqOaifULb_8",
+          "title": "치사율 최대 50% 한타바이러스, 세계를 떨게 하다.",
+          "published_at": "2026-05-13",
+          "view_count": 256673,
+          "is_short": false
+        },
+        {
           "video_id": "dwY_s50Hw3g",
           "title": "죽은 기업도 살리는 '반도체 붐'",
           "published_at": "2026-05-12",
-          "view_count": 192195,
+          "view_count": 267736,
           "is_short": false
         },
         {
           "video_id": "dgCTXeegLIM",
           "title": "코스피 7,800 돌파, 박탈감에 시달리는 사람들",
           "published_at": "2026-05-11",
-          "view_count": 562719,
+          "view_count": 604960,
           "is_short": false
         },
         {
           "video_id": "gZ1HlsRJV1w",
           "title": "독일 내부를 분열시키고  있는 징병제 추진",
           "published_at": "2026-05-09",
-          "view_count": 410330,
+          "view_count": 420538,
           "is_short": false
         },
         {
           "video_id": "NuPa3gcdn1c",
           "title": "트럼프 \"관세 환급 신청하지 않으면 내 편\"",
           "published_at": "2026-05-08",
-          "view_count": 421114,
+          "view_count": 428629,
           "is_short": false
         },
         {
           "video_id": "Py-GCd_jk8I",
           "title": "외국인들이 한국에 오는 이유",
           "published_at": "2026-05-07",
-          "view_count": 391000,
+          "view_count": 400230,
           "is_short": false
         },
         {
           "video_id": "1I2OuuhHH8c",
           "title": "미국을 방문해 한방 먹인 영국왕 찰스",
           "published_at": "2026-05-06",
-          "view_count": 320878,
+          "view_count": 327020,
           "is_short": false
         },
         {
           "video_id": "cXrkvHVAiUg",
           "title": "늘어나는 재정 지출, 개선안은 있나",
           "published_at": "2026-05-05",
-          "view_count": 281663,
+          "view_count": 283940,
           "is_short": false
         },
         {
           "video_id": "i2fNLIKDhEo",
           "title": "빅테크 실적 잭팟, 코스피 7,000 임박",
           "published_at": "2026-05-04",
-          "view_count": 382479,
+          "view_count": 383975,
           "is_short": false
         },
         {
           "video_id": "n7Z2vUJDgPU",
           "title": "티라노사우루스의 비밀",
           "published_at": "2026-05-01",
-          "view_count": 347397,
-          "is_short": false
-        },
-        {
-          "video_id": "mV8RHxfe2xU",
-          "title": "민원 우려로 축구도 금지된 요즘 학교",
-          "published_at": "2026-04-30",
-          "view_count": 367407,
+          "view_count": 349582,
           "is_short": false
         }
       ]
@@ -4792,7 +4821,7 @@
       "subscriber_count": 3140000,
       "weekly_growth": 10000,
       "weekly_growth_rate": 0.32,
-      "avg_views_per_video": 1462029,
+      "avg_views_per_video": 1376280,
       "weekly_upload_count": 12,
       "weekly_longform_count": 5,
       "weekly_shortform_count": 7,
@@ -4856,73 +4885,73 @@
       ],
       "recent_videos": [
         {
+          "video_id": "KcwFW1HaaPA",
+          "title": "우리할매떡볶이와 최근 본 것들",
+          "published_at": "2026-05-13",
+          "view_count": 228905,
+          "is_short": false
+        },
+        {
+          "video_id": "ZKj27m16JDs",
+          "title": "압도적 피지컬",
+          "published_at": "2026-05-13",
+          "view_count": 918365,
+          "is_short": true
+        },
+        {
           "video_id": "F9XqC3dOp38",
           "title": "드디어 개최된《제1회 침투부 운동회》",
           "published_at": "2026-05-12",
-          "view_count": 376392,
+          "view_count": 610202,
           "is_short": false
         },
         {
           "video_id": "noqa55eJw_k",
           "title": "44세 이상 필수 시청",
           "published_at": "2026-05-12",
-          "view_count": 179553,
+          "view_count": 231383,
           "is_short": true
         },
         {
           "video_id": "5ISS1Gkhfw0",
           "title": "오월드에서 삼국지까지 의식의 흐름 토크",
           "published_at": "2026-05-11",
-          "view_count": 286920,
+          "view_count": 312921,
           "is_short": false
         },
         {
           "video_id": "_li0tjLkAME",
           "title": "추악한 촉나라의 진실",
           "published_at": "2026-05-11",
-          "view_count": 1484487,
+          "view_count": 1832490,
           "is_short": true
         },
         {
           "video_id": "UGI__Bgr7ac",
           "title": "위고비 VS 마운자로",
           "published_at": "2026-05-10",
-          "view_count": 671810,
+          "view_count": 722542,
           "is_short": false
         },
         {
           "video_id": "oiBFiuodP7g",
           "title": "가짜 책",
           "published_at": "2026-05-10",
-          "view_count": 2097857,
+          "view_count": 2305814,
           "is_short": true
         },
         {
           "video_id": "HJmZsYJVt_8",
           "title": "침착하지 않은 체조 개발기 (Feat.제미나이)",
           "published_at": "2026-05-09",
-          "view_count": 226391,
+          "view_count": 234386,
           "is_short": true
         },
         {
           "video_id": "UjIr6ZwOupM",
           "title": "인내심 테스트",
           "published_at": "2026-05-08",
-          "view_count": 3149987,
-          "is_short": true
-        },
-        {
-          "video_id": "3xxbz5lgmqo",
-          "title": "오월드 탈출한 늑대, '늑구' 인터뷰",
-          "published_at": "2026-05-07",
-          "view_count": 762952,
-          "is_short": false
-        },
-        {
-          "video_id": "stgByVAh0F8",
-          "title": "마수사냥",
-          "published_at": "2026-05-07",
-          "view_count": 980596,
+          "view_count": 3209103,
           "is_short": true
         }
       ]
@@ -4931,10 +4960,10 @@
       "channel_id": "UCePdAFPZ5985Y7nPuUcx7uw",
       "name": "십이층",
       "is_target": 0,
-      "subscriber_count": 957000,
+      "subscriber_count": 958000,
       "weekly_growth": 7000,
       "weekly_growth_rate": 0.76,
-      "avg_views_per_video": 667106,
+      "avg_views_per_video": 693827,
       "weekly_upload_count": 7,
       "weekly_longform_count": 1,
       "weekly_shortform_count": 6,
@@ -5001,70 +5030,70 @@
           "video_id": "YIqM-rcntPc",
           "title": "프러포즈하다 카드 한도 초과",
           "published_at": "2026-05-12",
-          "view_count": 456054,
+          "view_count": 794371,
           "is_short": true
         },
         {
           "video_id": "gHJ8N03fFdk",
           "title": "엇갈린 프러포즈 상대",
           "published_at": "2026-05-10",
-          "view_count": 928546,
+          "view_count": 1066321,
           "is_short": true
         },
         {
           "video_id": "AkRUcJZ7qkE",
           "title": "아는 사람만 아는 이벤트 명소",
           "published_at": "2026-05-10",
-          "view_count": 51859,
+          "view_count": 58161,
           "is_short": true
         },
         {
           "video_id": "_Bhgml80Bhw",
           "title": "요즘 문제라는 교보문고 번따",
           "published_at": "2026-05-09",
-          "view_count": 116914,
+          "view_count": 129308,
           "is_short": true
         },
         {
           "video_id": "mCcgI1004ig",
           "title": "키가 전부인 이유",
           "published_at": "2026-05-09",
-          "view_count": 531225,
+          "view_count": 611768,
           "is_short": true
         },
         {
           "video_id": "rp-ClBlLw2k",
           "title": "번따는? 자만추 vs인만추",
           "published_at": "2026-05-08",
-          "view_count": 73515,
+          "view_count": 82643,
           "is_short": true
         },
         {
           "video_id": "hjLarLVxbpA",
           "title": "고수들만 안다는 자만추 방법ㅣ영업중EP.64 [EN]",
           "published_at": "2026-05-07",
-          "view_count": 1149676,
+          "view_count": 1197056,
           "is_short": false
         },
         {
           "video_id": "7Rcq16c5-1A",
           "title": "커플 사이에서 이런 대화 가능?",
           "published_at": "2026-05-05",
-          "view_count": 336987,
+          "view_count": 342552,
           "is_short": true
         },
         {
           "video_id": "X5B7wQZSrZc",
           "title": "모른 척 지나가 주세요",
           "published_at": "2026-05-04",
-          "view_count": 129386,
+          "view_count": 130941,
           "is_short": true
         },
         {
           "video_id": "AmkRFgceP00",
           "title": "너만의 명예 흑기사",
           "published_at": "2026-05-03",
-          "view_count": 118610,
+          "view_count": 121242,
           "is_short": true
         }
       ]
@@ -5073,13 +5102,13 @@
       "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
       "name": "머니그라피",
       "is_target": 1,
-      "subscriber_count": 744000,
+      "subscriber_count": 747000,
       "weekly_growth": 11000,
       "weekly_growth_rate": 1.61,
-      "avg_views_per_video": 442317,
-      "weekly_upload_count": 6,
+      "avg_views_per_video": 432639,
+      "weekly_upload_count": 7,
       "weekly_longform_count": 0,
-      "weekly_shortform_count": 6,
+      "weekly_shortform_count": 7,
       "growth_history": [
         {
           "date": "2026-03-25",
@@ -5140,73 +5169,73 @@
       ],
       "recent_videos": [
         {
+          "video_id": "5aEI9cJGKak",
+          "title": "다시 보는 간지 친구 섭외 비하인드",
+          "published_at": "2026-05-14",
+          "view_count": 20569,
+          "is_short": true
+        },
+        {
+          "video_id": "4UWzHhqAkQo",
+          "title": "(비밀파티) 술탄과 댓글 읽기",
+          "published_at": "2026-05-13",
+          "view_count": 170073,
+          "is_short": true
+        },
+        {
           "video_id": "AggA2h8QgCg",
-          "title": "허키의 친구를 소개합니다",
+          "title": "(비밀파티) 허키의 친구를 소개합니다",
           "published_at": "2026-05-12",
-          "view_count": 211329,
+          "view_count": 255016,
           "is_short": true
         },
         {
           "video_id": "Lyok5SuY5kw",
-          "title": "카더가든이 왜 여기서 나와",
+          "title": "(비밀파티) 카더가든이 왜 여기서 나와",
           "published_at": "2026-05-12",
-          "view_count": 232343,
+          "view_count": 306114,
           "is_short": true
         },
         {
           "video_id": "XjpMjJFTJdc",
-          "title": "그날 술탄 합주실에서 생긴 일",
+          "title": "(비밀파티) 그날 술탄 합주실에서 생긴 일",
           "published_at": "2026-05-11",
-          "view_count": 494911,
+          "view_count": 548490,
           "is_short": true
         },
         {
           "video_id": "uOuJeAM_BXI",
           "title": "(에필로그) 홍상수를 좋아하세요...",
           "published_at": "2026-05-11",
-          "view_count": 464586,
+          "view_count": 502936,
           "is_short": true
         },
         {
           "video_id": "21qflIkXpi4",
           "title": "(미방분) 왜 나는 연애를 못 할까?",
           "published_at": "2026-05-07",
-          "view_count": 695127,
+          "view_count": 732777,
           "is_short": true
         },
         {
           "video_id": "nOiyukyrXiA",
           "title": "(미방분) 새 학기 기선제압하는 법",
           "published_at": "2026-05-06",
-          "view_count": 725853,
+          "view_count": 746105,
           "is_short": true
         },
         {
           "video_id": "GZ6Sw6-Cxws",
           "title": "(미방분) 씨네필 꿈나무 중학생에게",
           "published_at": "2026-05-05",
-          "view_count": 382051,
+          "view_count": 392969,
           "is_short": true
         },
         {
           "video_id": "fusqmcfXj7M",
           "title": "(미방분) 일 중독 간지를 위한 혜련좌의 처방",
           "published_at": "2026-05-04",
-          "view_count": 405807,
-          "is_short": true
-        },
-        {
-          "video_id": "mKZDjLuj414",
-          "title": "조혜련이 사랑 쟁취하는 법",
-          "published_at": "2026-05-02",
-          "view_count": 275242,
-          "is_short": true
-        },
-        {
-          "video_id": "KlW1DfLvnWw",
-          "title": "세대별 연애 궁합 보는 법",
-          "published_at": "2026-05-01",
-          "view_count": 453141,
+          "view_count": 417004,
           "is_short": true
         }
       ]
@@ -5215,10 +5244,10 @@
       "channel_id": "UCRbjtZUrNAQe7w5c03JCMXw",
       "name": "민음사TV",
       "is_target": 0,
-      "subscriber_count": 465000,
+      "subscriber_count": 467000,
       "weekly_growth": 3000,
       "weekly_growth_rate": 0.72,
-      "avg_views_per_video": 168452,
+      "avg_views_per_video": 173567,
       "weekly_upload_count": 2,
       "weekly_longform_count": 1,
       "weekly_shortform_count": 1,
@@ -5285,43 +5314,22 @@
           "video_id": "N_7vNBUTGu0",
           "title": "\"올해 노벨 후보상...?\" 역대급 현실적인 디스토피아 소설로 미국에서 역주행했던 '증언들' 세계관 총정리ㅣ증언들 입덕 강의",
           "published_at": "2026-05-08",
-          "view_count": 67390,
+          "view_count": 71263,
           "is_short": false
         },
         {
           "video_id": "afO9pl-jlwc",
           "title": "출판사 직원들의 외근 일기 (feat. 유퀴즈)",
           "published_at": "2026-05-07",
-          "view_count": 443237,
+          "view_count": 452726,
           "is_short": true
         },
         {
           "video_id": "p4Wf8PSZnTc",
           "title": "\"영원히 사랑하시죠...?\" 도합 61년 차 직장인들에게 회사 생활 싹 다 털어봤습니다 (feat. 60주년 맞이 특별 도서)",
           "published_at": "2026-05-01",
-          "view_count": 87421,
+          "view_count": 88757,
           "is_short": false
-        },
-        {
-          "video_id": "NxjUq166L6A",
-          "title": "별다줄~",
-          "published_at": "2026-04-29",
-          "view_count": 131946,
-          "is_short": true
-        },
-        {
-          "video_id": "V4xVLyb6ZLs",
-          "title": "강지영이 퇴사 고민할 때 읽은 책",
-          "published_at": "2026-04-29",
-          "view_count": 95083,
-          "is_short": true
-        },
-        {
-          "video_id": "bXfyBtrrUvw",
-          "title": "방송인 강지영의 독서템 모음.zip",
-          "published_at": "2026-04-29",
-          "view_count": 98791,
-          "is_short": true
         }
       ]
     },
@@ -5332,7 +5340,7 @@
       "subscriber_count": 125000,
       "weekly_growth": 0,
       "weekly_growth_rate": 0.0,
-      "avg_views_per_video": 100155,
+      "avg_views_per_video": 95272,
       "weekly_upload_count": 7,
       "weekly_longform_count": 1,
       "weekly_shortform_count": 6,
@@ -5396,73 +5404,73 @@
       ],
       "recent_videos": [
         {
+          "video_id": "6EGZMZuXuXg",
+          "title": "무슨 내용일까...?",
+          "published_at": "2026-05-13",
+          "view_count": 12158,
+          "is_short": true
+        },
+        {
+          "video_id": "cUeB9BfC9QA",
+          "title": "말 있죠? 드라마에 인생이 담겼다는 말ㅣ아무튼떠들러왔는데 EP.25 📺드라마📺",
+          "published_at": "2026-05-13",
+          "view_count": 46021,
+          "is_short": false
+        },
+        {
           "video_id": "NxJ8LsUu_zg",
           "title": "미미미누가 알려주는 공부 치트키",
           "published_at": "2026-05-11",
-          "view_count": 2149,
+          "view_count": 3103,
           "is_short": true
         },
         {
           "video_id": "3Oq8bAvwBXI",
           "title": "지디가 나한테 해준 일",
           "published_at": "2026-05-08",
-          "view_count": 17601,
+          "view_count": 17678,
           "is_short": true
         },
         {
           "video_id": "t9IfbHoO_8A",
           "title": "애니 덕후 특",
           "published_at": "2026-05-07",
-          "view_count": 25702,
+          "view_count": 27050,
           "is_short": true
         },
         {
           "video_id": "YCQUUAdrfEo",
           "title": "기여할 사람 발목 잡지 마",
           "published_at": "2026-05-07",
-          "view_count": 26582,
+          "view_count": 26662,
           "is_short": true
         },
         {
           "video_id": "47GUcj3LGkA",
           "title": "5수 의미 없다",
           "published_at": "2026-05-07",
-          "view_count": 28419,
+          "view_count": 28823,
           "is_short": true
         },
         {
           "video_id": "T0ZFL7gbjjY",
           "title": "누구 좀 말려주실 분?",
           "published_at": "2026-05-06",
-          "view_count": 17405,
+          "view_count": 17428,
           "is_short": true
         },
         {
           "video_id": "y7wCMWBwYp0",
           "title": "정기 후원 단체 성과보고회 ㅣ아무튼떠들러왔는데 EP.24 🕹️덕질🕹️",
           "published_at": "2026-05-06",
-          "view_count": 154789,
+          "view_count": 157604,
           "is_short": false
         },
         {
           "video_id": "1vTU8f20Uds",
           "title": "약속 직전 눈치 싸움",
           "published_at": "2026-05-01",
-          "view_count": 22217,
-          "is_short": true
-        },
-        {
-          "video_id": "Cypg17olqQ0",
-          "title": "프로그램 하나로 추억 소환",
-          "published_at": "2026-04-30",
-          "view_count": 23469,
-          "is_short": true
-        },
-        {
-          "video_id": "97bSjYNWxks",
-          "title": "연예인이 목욕탕 가면 생기는 일",
-          "published_at": "2026-04-30",
-          "view_count": 17213,
+          "view_count": 22230,
           "is_short": true
         }
       ]
@@ -5471,10 +5479,10 @@
       "channel_id": "UC2Iko5L69mFarhDJX3htJPg",
       "name": "SPNS TV",
       "is_target": 0,
-      "subscriber_count": 86300,
+      "subscriber_count": 86400,
       "weekly_growth": 1800,
       "weekly_growth_rate": 2.24,
-      "avg_views_per_video": 76565,
+      "avg_views_per_video": 78301,
       "weekly_upload_count": 7,
       "weekly_longform_count": 1,
       "weekly_shortform_count": 6,
@@ -5538,74 +5546,74 @@
       ],
       "recent_videos": [
         {
+          "video_id": "yqXo1MldM10",
+          "title": "요즘 한국 드라마가 재미 없어진 이유 l 봉태규와 슈즈오프 EP.108",
+          "published_at": "2026-05-13",
+          "view_count": 10299,
+          "is_short": false
+        },
+        {
           "video_id": "UCorPSyeJNY",
           "title": "사마귀 인간의 툭튀 라이브",
           "published_at": "2026-05-12",
-          "view_count": 10912,
+          "view_count": 13019,
           "is_short": true
         },
         {
           "video_id": "hsn-3fcwHVg",
           "title": "사와디캅의 좌충우돌 종로 탐방기",
           "published_at": "2026-05-11",
-          "view_count": 65030,
+          "view_count": 67194,
           "is_short": true
         },
         {
           "video_id": "RIHseUlTWtw",
           "title": "주변에 AI 의심하는 사람들 다 절연하세요",
           "published_at": "2026-05-10",
-          "view_count": 24246,
+          "view_count": 24898,
           "is_short": true
         },
         {
           "video_id": "XiOk73lcNls",
           "title": "AI는 신이에요",
           "published_at": "2026-05-09",
-          "view_count": 26302,
+          "view_count": 27340,
           "is_short": true
         },
         {
           "video_id": "qCOCg5RGvWQ",
           "title": "일베는 왜 아직도 유행일까?",
           "published_at": "2026-05-08",
-          "view_count": 14540,
+          "view_count": 14785,
           "is_short": true
         },
         {
           "video_id": "kmTcEuccumY",
           "title": "조만장자 실리콘밸리 창업가들의 특징?",
           "published_at": "2026-05-07",
-          "view_count": 146349,
+          "view_count": 147787,
           "is_short": true
         },
         {
           "video_id": "il5XJ8jPTe4",
           "title": "매각 3번에 IPO까지 성공해도 계속 창업하는 이유ㅣ노정석과 슈즈오프 EP.107",
           "published_at": "2026-05-06",
-          "view_count": 25184,
+          "view_count": 26359,
           "is_short": false
         },
         {
           "video_id": "mo73CHDGl5M",
           "title": "가르종 로비에 “I Don’t Dance” | presented by Marshall",
           "published_at": "2026-05-05",
-          "view_count": 16755,
+          "view_count": 17108,
           "is_short": true
         },
         {
           "video_id": "uBHEFvA6RoQ",
           "title": "인 디 키친 EP.5 l 가르종 로비에 l I DON'T DANCE + 누님 라이브",
           "published_at": "2026-05-05",
-          "view_count": 16010,
+          "view_count": 16935,
           "is_short": false
-        },
-        {
-          "video_id": "2snyVtK4f9E",
-          "title": "렙틸리언이 설명하는 음모론🐙",
-          "published_at": "2026-05-04",
-          "view_count": 63107,
-          "is_short": true
         }
       ]
     },
@@ -5684,13 +5692,13 @@
       "channel_id": "UC13cuDfYBb9nRpAT3GFlFlQ",
       "name": "카우치포테이토클럽",
       "is_target": 0,
-      "subscriber_count": 17000,
+      "subscriber_count": 17100,
       "weekly_growth": 1740,
       "weekly_growth_rate": 19.86,
-      "avg_views_per_video": 64175,
-      "weekly_upload_count": 39,
+      "avg_views_per_video": 63512,
+      "weekly_upload_count": 43,
       "weekly_longform_count": 2,
-      "weekly_shortform_count": 37,
+      "weekly_shortform_count": 41,
       "growth_history": [
         {
           "date": "2026-03-25",
@@ -5754,70 +5762,70 @@
           "video_id": "99N4sH4kwCw",
           "title": "'기리고' 감독님의 디테일한 디렉팅",
           "published_at": "2026-05-13",
-          "view_count": 2955,
+          "view_count": 13156,
+          "is_short": true
+        },
+        {
+          "video_id": "SbiH69uLlfM",
+          "title": "얼굴 빨개지는 연기 가능합니다",
+          "published_at": "2026-05-13",
+          "view_count": 4794,
+          "is_short": true
+        },
+        {
+          "video_id": "8yHUtLHevmQ",
+          "title": "클리셰를 깼던 '기리고' 방울이",
+          "published_at": "2026-05-13",
+          "view_count": 4587,
+          "is_short": true
+        },
+        {
+          "video_id": "uqdG4Jlymp8",
+          "title": "강미나 '기리고' 애드립",
+          "published_at": "2026-05-13",
+          "view_count": 14042,
+          "is_short": true
+        },
+        {
+          "video_id": "TSXgEN6H9qU",
+          "title": "실제로 출시된 '기리고' 앱 (소원 한번 빌어볼래..?)",
+          "published_at": "2026-05-13",
+          "view_count": 8626,
+          "is_short": true
+        },
+        {
+          "video_id": "IgWQc-XH8gw",
+          "title": "'기리고' 다시 봐야 보이는 장면",
+          "published_at": "2026-05-13",
+          "view_count": 21990,
           "is_short": true
         },
         {
           "video_id": "D2KZ5SZDTLY",
           "title": "넘어갈 수밖에 없는 한 입만 플러팅",
           "published_at": "2026-05-12",
-          "view_count": 1036,
+          "view_count": 2125,
           "is_short": true
         },
         {
           "video_id": "6Oon5IGbpWU",
           "title": "신인 배우들의 활약이 돋보였던 '기리고'",
           "published_at": "2026-05-12",
-          "view_count": 7348,
+          "view_count": 14210,
           "is_short": true
         },
         {
           "video_id": "H5Xe75YLy9U",
           "title": "강미나를 힘들게 했던 '기리고' 대사",
           "published_at": "2026-05-12",
-          "view_count": 4045,
+          "view_count": 5000,
           "is_short": true
         },
         {
           "video_id": "UFzjVEagPCE",
           "title": "'기리고' 얼마나 무서울까?",
           "published_at": "2026-05-12",
-          "view_count": 8388,
-          "is_short": true
-        },
-        {
-          "video_id": "TO15GnDPvLY",
-          "title": "짱구가 찐 공포야",
-          "published_at": "2026-05-12",
-          "view_count": 12910,
-          "is_short": true
-        },
-        {
-          "video_id": "qYbQmXUtS7c",
-          "title": "'기리고' 시즌 2 나올까?",
-          "published_at": "2026-05-11",
-          "view_count": 19225,
-          "is_short": true
-        },
-        {
-          "video_id": "oF8J5tHWsS4",
-          "title": "'기리고' 나리와 세아 현실에서는 (다행히) 사이 좋아요",
-          "published_at": "2026-05-11",
-          "view_count": 8211,
-          "is_short": true
-        },
-        {
-          "video_id": "P9bobLHOkAo",
-          "title": "강미나 '기리고' 시즌 2에서도 볼 수 있을까?",
-          "published_at": "2026-05-11",
-          "view_count": 14895,
-          "is_short": true
-        },
-        {
-          "video_id": "GNxZJNUI-JQ",
-          "title": "같이 머리 감아줘서 땡큐 (To. 귀신)",
-          "published_at": "2026-05-11",
-          "view_count": 18321,
+          "view_count": 10588,
           "is_short": true
         }
       ]
@@ -5874,35 +5882,35 @@
     "avg_views_ranking": [
       {
         "name": "침착맨",
-        "value": 1462029
+        "value": 1376280
       },
       {
         "name": "십이층",
-        "value": 667106
+        "value": 693827
       },
       {
         "name": "머니그라피",
-        "value": 442317
+        "value": 432639
       },
       {
         "name": "슈카월드",
-        "value": 411408
+        "value": 412202
       },
       {
         "name": "민음사TV",
-        "value": 168452
+        "value": 173567
       },
       {
         "name": "오키키ㅇㅋㅋ",
-        "value": 100155
+        "value": 95272
       },
       {
         "name": "SPNS TV",
-        "value": 76565
+        "value": 78301
       },
       {
         "name": "카우치포테이토클럽",
-        "value": 64175
+        "value": 63512
       },
       {
         "name": "페페스튜디오",
@@ -5912,7 +5920,7 @@
     "upload_freq_ranking": [
       {
         "name": "카우치포테이토클럽",
-        "value": 39
+        "value": 43
       },
       {
         "name": "침착맨",
@@ -5923,6 +5931,10 @@
         "value": 7
       },
       {
+        "name": "머니그라피",
+        "value": 7
+      },
+      {
         "name": "오키키ㅇㅋㅋ",
         "value": 7
       },
@@ -5932,10 +5944,6 @@
       },
       {
         "name": "슈카월드",
-        "value": 6
-      },
-      {
-        "name": "머니그라피",
         "value": 6
       },
       {
@@ -5954,9 +5962,9 @@
       "name": "슈카월드",
       "is_target": 0,
       "subscriber_count": 3690000,
-      "avg_views": 515358,
-      "avg_like_rate": 1.041,
-      "avg_comment_rate": 0.203,
+      "avg_views": 517878,
+      "avg_like_rate": 1.04,
+      "avg_comment_rate": 0.198,
       "short_ratio": 11.1,
       "video_count": 54
     },
@@ -5965,42 +5973,42 @@
       "name": "침착맨",
       "is_target": 0,
       "subscriber_count": 3140000,
-      "avg_views": 1752839,
-      "avg_like_rate": 1.009,
-      "avg_comment_rate": 0.061,
-      "short_ratio": 58.3,
-      "video_count": 103
+      "avg_views": 1741503,
+      "avg_like_rate": 1.011,
+      "avg_comment_rate": 0.06,
+      "short_ratio": 57.7,
+      "video_count": 104
     },
     {
       "channel_id": "UCePdAFPZ5985Y7nPuUcx7uw",
       "name": "십이층",
       "is_target": 0,
-      "subscriber_count": 957000,
-      "avg_views": 683821,
-      "avg_like_rate": 0.646,
-      "avg_comment_rate": 0.035,
-      "short_ratio": 89.5,
-      "video_count": 76
+      "subscriber_count": 958000,
+      "avg_views": 702747,
+      "avg_like_rate": 0.652,
+      "avg_comment_rate": 0.036,
+      "short_ratio": 89.2,
+      "video_count": 74
     },
     {
       "channel_id": "UCwXOKS-z1t9u6Axmm3blXug",
       "name": "머니그라피",
       "is_target": 1,
-      "subscriber_count": 744000,
-      "avg_views": 455205,
-      "avg_like_rate": 1.342,
-      "avg_comment_rate": 0.058,
-      "short_ratio": 88.9,
-      "video_count": 63
+      "subscriber_count": 747000,
+      "avg_views": 453473,
+      "avg_like_rate": 1.356,
+      "avg_comment_rate": 0.061,
+      "short_ratio": 89.1,
+      "video_count": 64
     },
     {
       "channel_id": "UCRbjtZUrNAQe7w5c03JCMXw",
       "name": "민음사TV",
       "is_target": 0,
-      "subscriber_count": 465000,
-      "avg_views": 138019,
-      "avg_like_rate": 1.495,
-      "avg_comment_rate": 0.059,
+      "subscriber_count": 467000,
+      "avg_views": 141098,
+      "avg_like_rate": 1.484,
+      "avg_comment_rate": 0.058,
       "short_ratio": 78.3,
       "video_count": 46
     },
@@ -6009,21 +6017,21 @@
       "name": "오키키ㅇㅋㅋ",
       "is_target": 0,
       "subscriber_count": 125000,
-      "avg_views": 119219,
-      "avg_like_rate": 0.993,
-      "avg_comment_rate": 0.036,
-      "short_ratio": 84.2,
-      "video_count": 38
+      "avg_views": 115114,
+      "avg_like_rate": 1.003,
+      "avg_comment_rate": 0.038,
+      "short_ratio": 82.5,
+      "video_count": 40
     },
     {
       "channel_id": "UC2Iko5L69mFarhDJX3htJPg",
       "name": "SPNS TV",
       "is_target": 0,
-      "subscriber_count": 86300,
-      "avg_views": 109791,
-      "avg_like_rate": 1.425,
-      "avg_comment_rate": 0.279,
-      "short_ratio": 66.7,
+      "subscriber_count": 86400,
+      "avg_views": 109953,
+      "avg_like_rate": 1.428,
+      "avg_comment_rate": 0.282,
+      "short_ratio": 65.4,
       "video_count": 78
     },
     {
@@ -6031,8 +6039,8 @@
       "name": "페페스튜디오",
       "is_target": 0,
       "subscriber_count": 26100,
-      "avg_views": 29582,
-      "avg_like_rate": 1.641,
+      "avg_views": 29591,
+      "avg_like_rate": 1.643,
       "avg_comment_rate": 0.034,
       "short_ratio": 88.2,
       "video_count": 17
@@ -6041,9 +6049,9 @@
       "channel_id": "UC13cuDfYBb9nRpAT3GFlFlQ",
       "name": "카우치포테이토클럽",
       "is_target": 0,
-      "subscriber_count": 17000,
-      "avg_views": 56503,
-      "avg_like_rate": 1.004,
+      "subscriber_count": 17100,
+      "avg_views": 56752,
+      "avg_like_rate": 0.999,
       "avg_comment_rate": 0.035,
       "short_ratio": 95.7,
       "video_count": 208
@@ -6051,55 +6059,50 @@
   ],
   "content_insights": {
     "upload_gap_by_views": {
-      "당일(0일)": 530887,
-      "1~3일": 452188,
-      "4~7일": 530321,
+      "당일(0일)": 537206,
+      "1~3일": 447264,
+      "4~7일": 534148,
       "8~14일": 347462,
       "15일+": 0
     },
     "title_length_by_views": {
-      "~20자": 432547,
-      "21~40자": 505020,
-      "41~60자": 724080,
+      "~20자": 430547,
+      "21~40자": 502430,
+      "41~60자": 727940,
       "61자+": 0
     },
     "content_type_comparison": {
       "guest": {
         "count": 6,
-        "avg_views": 1097050,
-        "avg_likes": 17305,
-        "avg_comments": 3169
+        "avg_views": 1103163,
+        "avg_likes": 17370,
+        "avg_comments": 3172
       },
       "regular_program": {
         "count": 20,
-        "avg_views": 423975,
-        "avg_likes": 5233,
+        "avg_views": 424071,
+        "avg_likes": 5234,
         "avg_comments": 362
       },
       "standalone": {
-        "count": 92,
-        "avg_views": 447182,
-        "avg_likes": 6529,
+        "count": 94,
+        "avg_views": 445865,
+        "avg_likes": 6507,
         "avg_comments": 198
       }
     },
     "avg_upload_gap_days": 1.8
   },
   "growth_prediction": {
-    "current_subscribers": 744000,
+    "current_subscribers": 747000,
     "target_subscribers": 1000000,
-    "remaining": 256000,
-    "data_points": 43,
+    "remaining": 253000,
+    "data_points": 44,
     "enough_data": true,
-    "predicted_date": "2026-10-15",
-    "days_remaining": 155,
-    "daily_growth_rate": 1647.7,
+    "predicted_date": "2026-10-13",
+    "days_remaining": 152,
+    "daily_growth_rate": 1661.9,
     "growth_trend": [
-      {
-        "date": "2026-04-14",
-        "subscribers": 694000,
-        "is_actual": true
-      },
       {
         "date": "2026-04-15",
         "subscribers": 696000,
@@ -6247,152 +6250,157 @@
       },
       {
         "date": "2026-05-14",
-        "subscribers": 745647,
-        "is_actual": false
+        "subscribers": 747000,
+        "is_actual": true
       },
       {
         "date": "2026-05-15",
-        "subscribers": 747295,
+        "subscribers": 748661,
         "is_actual": false
       },
       {
         "date": "2026-05-16",
-        "subscribers": 748943,
+        "subscribers": 750323,
         "is_actual": false
       },
       {
         "date": "2026-05-17",
-        "subscribers": 750590,
+        "subscribers": 751985,
         "is_actual": false
       },
       {
         "date": "2026-05-18",
-        "subscribers": 752238,
+        "subscribers": 753647,
         "is_actual": false
       },
       {
         "date": "2026-05-19",
-        "subscribers": 753886,
+        "subscribers": 755309,
         "is_actual": false
       },
       {
         "date": "2026-05-20",
-        "subscribers": 755533,
+        "subscribers": 756971,
         "is_actual": false
       },
       {
         "date": "2026-05-21",
-        "subscribers": 757181,
+        "subscribers": 758633,
         "is_actual": false
       },
       {
         "date": "2026-05-22",
-        "subscribers": 758829,
+        "subscribers": 760295,
         "is_actual": false
       },
       {
         "date": "2026-05-23",
-        "subscribers": 760477,
+        "subscribers": 761957,
         "is_actual": false
       },
       {
         "date": "2026-05-24",
-        "subscribers": 762124,
+        "subscribers": 763619,
         "is_actual": false
       },
       {
         "date": "2026-05-25",
-        "subscribers": 763772,
+        "subscribers": 765280,
         "is_actual": false
       },
       {
         "date": "2026-05-26",
-        "subscribers": 765420,
+        "subscribers": 766942,
         "is_actual": false
       },
       {
         "date": "2026-05-27",
-        "subscribers": 767067,
+        "subscribers": 768604,
         "is_actual": false
       },
       {
         "date": "2026-05-28",
-        "subscribers": 768715,
+        "subscribers": 770266,
         "is_actual": false
       },
       {
         "date": "2026-05-29",
-        "subscribers": 770363,
+        "subscribers": 771928,
         "is_actual": false
       },
       {
         "date": "2026-05-30",
-        "subscribers": 772010,
+        "subscribers": 773590,
         "is_actual": false
       },
       {
         "date": "2026-05-31",
-        "subscribers": 773658,
+        "subscribers": 775252,
         "is_actual": false
       },
       {
         "date": "2026-06-01",
-        "subscribers": 775306,
+        "subscribers": 776914,
         "is_actual": false
       },
       {
         "date": "2026-06-02",
-        "subscribers": 776954,
+        "subscribers": 778576,
         "is_actual": false
       },
       {
         "date": "2026-06-03",
-        "subscribers": 778601,
+        "subscribers": 780238,
         "is_actual": false
       },
       {
         "date": "2026-06-04",
-        "subscribers": 780249,
+        "subscribers": 781899,
         "is_actual": false
       },
       {
         "date": "2026-06-05",
-        "subscribers": 781897,
+        "subscribers": 783561,
         "is_actual": false
       },
       {
         "date": "2026-06-06",
-        "subscribers": 783544,
+        "subscribers": 785223,
         "is_actual": false
       },
       {
         "date": "2026-06-07",
-        "subscribers": 785192,
+        "subscribers": 786885,
         "is_actual": false
       },
       {
         "date": "2026-06-08",
-        "subscribers": 786840,
+        "subscribers": 788547,
         "is_actual": false
       },
       {
         "date": "2026-06-09",
-        "subscribers": 788487,
+        "subscribers": 790209,
         "is_actual": false
       },
       {
         "date": "2026-06-10",
-        "subscribers": 790135,
+        "subscribers": 791871,
         "is_actual": false
       },
       {
         "date": "2026-06-11",
-        "subscribers": 791783,
+        "subscribers": 793533,
         "is_actual": false
       },
       {
         "date": "2026-06-12",
-        "subscribers": 793431,
+        "subscribers": 795195,
+        "is_actual": false
+      },
+      {
+        "date": "2026-06-13",
+        "subscribers": 796857,
         "is_actual": false
       }
     ]
